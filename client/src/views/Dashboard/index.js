@@ -2,16 +2,19 @@
 import React from "react";
 import BenhNhanApi from "../../api/BenhNhanApi";
 import Button from '@material-ui/core/Button';
+
+import {ApolloClient, InMemoryCache, ApolloProvider} from "@apollo/client";
+
 function App() {
   const [data, setData] = React.useState(null);
 
+  const client = new ApolloClient({
+    url: '/graphql',
+    cache: new InMemoryCache()
+  })
+
   React.useEffect(() => {
-    BenhNhanApi.getAll({
-      token: "121212",
-      params:{
-        page:1
-      }
-    }).then(res=>setData(res))
+    
   }, []);
 
   return (
