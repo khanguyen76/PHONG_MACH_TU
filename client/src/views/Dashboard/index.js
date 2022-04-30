@@ -16,7 +16,7 @@ function App() {
         <h2>Danh sach benh nhan</h2>
         <ul className="box">
           {
-            data.DS_BENH_NHAN.map(item => (
+            data?.DS_BENH_NHAN.map(item => (
               <li key={item._id} onClick={() => SetPatrientSelected(item._id)}>{item.ho_ten}</li>
             ))
           }

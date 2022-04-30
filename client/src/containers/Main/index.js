@@ -12,7 +12,8 @@ export default function MainLayout(props) {
         <div className="layout">
             <Switch>
                 <Route exact path="/">
-                    <Redirect to={"/dashboard"} />
+                    {/* <Redirect to={"/dashboard"} /> */}
+                    <Redirect to={"/KhamBenh"} />
                 </Route>
                 {routeMain.map((route, index) => {
                     return <Route key={index} path={route.path} exact component={props => route.main(props)} />

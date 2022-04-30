@@ -4,11 +4,11 @@ import Routers from './router';
 import "./assets/styles/main.scss";
 // import { StateProvider } from './contexts';
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const client = new ApolloClient({
-  uri: '/graphql',
+  uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache()
 })
 

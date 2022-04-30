@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { getItemById } from "../../../graphql-queries/BENH_NHAN";
