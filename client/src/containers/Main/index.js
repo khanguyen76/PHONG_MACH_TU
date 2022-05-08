@@ -6,10 +6,14 @@ import {
     Redirect 
 } from 'react-router-dom';
 import { routeMain } from '../../constants/routes';
+import Sidebar from './Layouts/sidebar';
+import Header from './Layouts/header';
 
 export default function MainLayout(props) {
     return (
         <div className="layout">
+            <Sidebar />
+            <Header/>
             <Switch>
                 <Route exact path="/">
                     <Redirect to={"/dashboard"} />

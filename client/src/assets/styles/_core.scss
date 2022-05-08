@@ -3,3 +3,13 @@
     padding: 0;
     box-sizing: border-box;
 }
+html,body,#root{
+    width: 100%;
+    height: auto;
+}
+ul{
+    list-style: none;
+    li{
+        display: inline-block;
+    }
+}

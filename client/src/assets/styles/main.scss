@@ -5,8 +5,13 @@
 @import './typography';
 @import './core';
 // Components
-//  ---- import component's file scss here.
+@import './components/sidebar';
+@import './components/header';
+@import './components/button';
+@import './components/breadcrumb';
+@import './components/table';
 // Pages
-@import './pages/Dashboard';
-
+@import './pages/layout';
+// Vendor
+@import './vendors/font-awesome/fontawesome';
 @import './custom';

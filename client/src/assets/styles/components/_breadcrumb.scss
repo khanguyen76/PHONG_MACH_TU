@@ -1,0 +1,16 @@
+.breadcrumb {
+    margin: 20px 0;
+    ul {
+        display: flex;
+        padding: 10px 0;
+        li {
+            &:not(:first-child) {
+                margin-left: 10px;
+                &::before {
+                    margin-right: 10px;
+                    content: ">"
+                }
+            }
+        }
+    }
+}

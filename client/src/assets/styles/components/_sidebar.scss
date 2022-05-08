@@ -1,0 +1,70 @@
+.sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    background-color: $primary-color-1;
+    width: 140px;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    height: 100vh;
+    overflow-x: hidden;
+    direction: rtl;
+    .logo{
+        margin-bottom: 20px;
+    }
+    .menu,.bottom{
+        &__item{
+            margin-bottom: 10px;
+            opacity: .8;
+            transition: .3s ease-in;
+            cursor: pointer;
+            &:hover{
+                opacity: 1;
+            }
+            &:last-child{
+                margin: 0;
+            }
+            &.active{
+                .icon{
+                    i{
+                        background-color: rgba(255,255,255,.2);
+                    }
+                }
+            }
+            a{
+                text-decoration: none;
+                .icon{
+                    margin-bottom: 5px;
+                    i{
+                        font-size: 2rem;
+                        color: #fff;
+                        padding: 8px;
+                        border-radius: 10px;
+                    }
+                }
+                label{
+                    font-size: 1rem;
+                    font-weight: 500;
+                    color: #fff;
+                }
+            }
+        }
+    }
+    .bottom{
+        
+    }
+    &::-webkit-scrollbar {
+        width: 3px;
+    }
+    &::-webkit-scrollbar {
+        width: 3px;
+        height: 3px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: $primary-color-2;
+        border-radius: 25px;
+    }
+}
