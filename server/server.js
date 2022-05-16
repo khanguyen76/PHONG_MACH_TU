@@ -21,7 +21,6 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 // Init app
 var app = express();
 app.use(cors());
-
 // append /api for our http requests
 // const router = require('./src/RestAPI/routes');
 // app.use("/api", router);
@@ -35,6 +34,9 @@ async function startServer () {
     apolloServer = new ApolloServer({
         typeDefs,
         resolvers,
+        // context: ({req}) => {
+        //   console.log(req.headers)
+        // }
     });
     await apolloServer.start();
     apolloServer.applyMiddleware({ app });
