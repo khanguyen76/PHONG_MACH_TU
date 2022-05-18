@@ -34,9 +34,7 @@ async function startServer () {
     apolloServer = new ApolloServer({
         typeDefs,
         resolvers,
-        // context: ({req}) => {
-        //   console.log(req.headers)
-        // }
+        context: ({ req }) => req.headers
     });
     await apolloServer.start();
     apolloServer.applyMiddleware({ app });
