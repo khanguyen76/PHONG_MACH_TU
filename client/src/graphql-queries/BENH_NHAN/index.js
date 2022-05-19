@@ -3,13 +3,18 @@ import { gql } from '@apollo/client';
 export const getAll = gql`
     query {
         DS_BENH_NHAN {
-            _id
-            ho_ten
-            nam_sinh
-            gioi_tinh
-            created_at
-            updated_at
-            dia_chi
+            code
+            success
+            message
+            pages
+            total
+            doc {
+                _id
+                ho_ten
+                nam_sinh
+                gioi_tinh
+                dia_chi
+            }
         }
     }
 `

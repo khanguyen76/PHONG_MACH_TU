@@ -6,11 +6,12 @@ const TAI_KHOAN = require('../models/TAI_KHOAN');
 const { sendMail } = require('../ultils/mailer');
 const { createToken, verifyToken } = require('../ultils/jwt');
 const { encode, compare } = require('../ultils/bcrypt');
+const disableVerify = true
 const resolvers = {
     // QUERY
     Query: {
         DS_BENH_NHAN: async (_,{page,size},headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let count = await BENH_NHAN.count({ is_deleted: false })
                 let doc = await BENH_NHAN.find({ is_deleted: false },{},{skip:(page-1)*size,limit:size})
@@ -21,7 +22,7 @@ const resolvers = {
             }
         },
         BENH_NHAN: async (_,{_id},headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let res = await BENH_NHAN.findOne({ _id, is_deleted: false })
                 if (!res) {
@@ -34,7 +35,7 @@ const resolvers = {
             }
         },
         DS_PHIEU_KHAM: async (_,{page,size},headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let count = await PHIEU_KHAM.count({ is_deleted: false })
                 let doc = await PHIEU_KHAM.find({ is_deleted: false },{},{skip:(page-1)*size,limit:size})
@@ -45,7 +46,7 @@ const resolvers = {
             }
         },
         PHIEU_KHAM: async (_,{_id},headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let res = await PHIEU_KHAM.findOne({ _id, is_deleted: false })
                 if (!res) {
@@ -59,7 +60,7 @@ const resolvers = {
         },
 
         DS_LOAI_BENH: async (_,{page,size},headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let count = await LOAI_BENH.count({ is_deleted: false })
                 let doc = await LOAI_BENH.find({ is_deleted: false },{},{skip:(page-1)*size,limit:size})
@@ -70,7 +71,7 @@ const resolvers = {
             }
         },
         LOAI_BENH: async (_,{_id},headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let res = await LOAI_BENH.findOne({ _id, is_deleted: false })
                 if (!res) {
@@ -83,7 +84,7 @@ const resolvers = {
             }
         },
         DS_THUOC: async (_,{page,size},headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let count = await THUOC.count({ is_deleted: false })
                 let doc = await THUOC.find({ is_deleted: false },{},{skip:(page-1)*size,limit:size})
@@ -94,7 +95,7 @@ const resolvers = {
             }
         },
         THUOC: async (_,{_id},headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let res = await THUOC.findOne({ _id, is_deleted: false })
                 if (!res) {
@@ -117,7 +118,7 @@ const resolvers = {
     },
     Mutation: {
         THEM_BENH_NHAN: async (_, args,headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 const BENH_NHAN_MOI = new BENH_NHAN(args)
                 await BENH_NHAN_MOI.save()
@@ -128,7 +129,7 @@ const resolvers = {
             }
         },
         SUA_BENH_NHAN: async (_, args,headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let res1 = await BENH_NHAN.findOne({ _id: args._id, is_deleted: false })
                 if (!res1) {
@@ -142,7 +143,7 @@ const resolvers = {
             }
         },
         XOA_BENH_NHAN: async (_, args,headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let res1 = await BENH_NHAN.findOne({ _id: args._id }, { is_deleted: false })
                 if (res1) {
@@ -158,7 +159,7 @@ const resolvers = {
             }
         },
         THEM_LOAI_BENH: async (_, args,headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 const LOAI_BENH_MOI = new LOAI_BENH(args)
                 await LOAI_BENH_MOI.save()
@@ -169,7 +170,7 @@ const resolvers = {
             }
         },
         SUA_LOAI_BENH: async (_, args,headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let res1 = await LOAI_BENH.findOne({ _id: args._id, is_deleted: false })
                 if (!res1) {
@@ -183,7 +184,7 @@ const resolvers = {
             }
         },
         XOA_LOAI_BENH: async (_, args,headers) => {
-            let isValid = await verifyToken(headers['access-token'])
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let res1 = await LOAI_BENH.findOne({ _id: args._id }, { is_deleted: false })
                 if (res1) {

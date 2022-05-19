@@ -1,24 +1,27 @@
 import React from 'react'
 import SearchIcon from '@material-ui/icons/Search';
+import { logMissingFieldErrors } from '@apollo/client/core/ObservableQuery';
 
 export default function ({
+    className='',
     columns,
-    data,
+    data = [],
     isSort,
     controlAddOn,
     pagination
 }) {
     return (
-        <div className="table">
+        <div className={`table ${className}`}>
             <div className="table__top">
                 {
                     columns.filter(i => i.isSearchable)?.length > 0 && (
                         <div className="search-box">
                             <select name="" id="">
                                 {
-                                    columns.filter(i => i.isSearchable).map(col => {
+                                    columns.filter(i => i.isSearchable).map((col,key) => {
                                         return (
                                             <option
+                                                key={key}
                                                 value={typeof col.accessor == "function" ? col.isSearchable : col.accessor}
                                             >
                                                 {col.label}
@@ -49,19 +52,21 @@ export default function ({
             </div>
             <table>
                 <thead>
-                    {
-                        columns?.map((col, key) => (
-                            <th
-                                key={key}
-                                style={{
-                                    textAlign: col.textAlign || "left"
-                                }}
-                                {...col.props}
-                            >
-                                {col.label}
-                            </th>
-                        ))
-                    }
+                    <tr>
+                        {
+                            columns?.map((col, key) => (
+                                <th
+                                    key={key}
+                                    style={{
+                                        textAlign: col.textAlign || "left"
+                                    }}
+                                    {...col.props}
+                                >
+                                    {col.label}
+                                </th>
+                            ))
+                        }
+                    </tr>
                 </thead>
                 <tbody>
                     {
