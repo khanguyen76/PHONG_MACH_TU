@@ -18,7 +18,7 @@ const resolvers = {
                 return { success: true, code: 200, message: "Successful", total: count, pages: size ? Math.ceil(count/size):null, doc }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         BENH_NHAN: async (_,{_id},headers) => {
@@ -26,12 +26,12 @@ const resolvers = {
             if (isValid) {
                 let res = await BENH_NHAN.findOne({ _id, is_deleted: false })
                 if (!res) {
-                    return { success: false, code: 404, message: "Not found" }
+                    throw new PersistedQueryNotFoundError("Query not found")
                 }
                 return { success: true, code: 200, message: "Successful", doc: res }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         DS_PHIEU_KHAM: async (_,{page,size},headers) => {
@@ -42,7 +42,7 @@ const resolvers = {
                 return { success: true, code: 200, message: "Successful", total: count, pages: size ? Math.ceil(count/size):null, doc }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         PHIEU_KHAM: async (_,{_id},headers) => {
@@ -50,12 +50,12 @@ const resolvers = {
             if (isValid) {
                 let res = await PHIEU_KHAM.findOne({ _id, is_deleted: false })
                 if (!res) {
-                    return { success: false, code: 404, message: "Not found" }
+                    throw new PersistedQueryNotFoundError("Query not found")
                 }
                 return { success: true, code: 200, message: "Successful", doc: res }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
 
@@ -67,7 +67,7 @@ const resolvers = {
                 return { success: true, code: 200, message: "Successful", total: count, pages: size ? Math.ceil(count/size):null, doc }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         LOAI_BENH: async (_,{_id},headers) => {
@@ -75,12 +75,12 @@ const resolvers = {
             if (isValid) {
                 let res = await LOAI_BENH.findOne({ _id, is_deleted: false })
                 if (!res) {
-                    return { success: false, code: 404, message: "Not found" }
+                    throw new PersistedQueryNotFoundError("Query not found")
                 }
                 return { success: true, code: 200, message: "Successful", doc: res }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         DS_THUOC: async (_,{page,size},headers) => {
@@ -91,7 +91,7 @@ const resolvers = {
                 return { success: true, code: 200, message: "Successful", total: count, pages: size ? Math.ceil(count/size):null, doc }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         THUOC: async (_,{_id},headers) => {
@@ -99,12 +99,12 @@ const resolvers = {
             if (isValid) {
                 let res = await THUOC.findOne({ _id, is_deleted: false })
                 if (!res) {
-                    return { success: false, code: 404, message: "Not found" }
+                    throw new PersistedQueryNotFoundError("Query not found")
                 }
                 return { success: true, code: 200, message: "Successful", doc: res }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
     },
@@ -125,7 +125,7 @@ const resolvers = {
                 return { success: true, code: 200, message: "Successful" }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         SUA_BENH_NHAN: async (_, args,headers) => {
@@ -133,13 +133,13 @@ const resolvers = {
             if (isValid) {
                 let res1 = await BENH_NHAN.findOne({ _id: args._id, is_deleted: false })
                 if (!res1) {
-                    return { success: false, code: 404, message: "Not found" }
+                    throw new PersistedQueryNotFoundError("Query not found")
                 }
                 await BENH_NHAN.findOneAndUpdate({ _id: args._id }, { ...args }, { new: true })
                 return { success: true, code: 200, message: "Successful" }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         XOA_BENH_NHAN: async (_, args,headers) => {
@@ -151,11 +151,11 @@ const resolvers = {
                     return { success: true, code: 200, message: "Successfully"}
                 }
                 else {
-                    return { success: false, code: 404, message: "Not found" }
+                    throw new PersistedQueryNotFoundError("Query not found")
                 }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         THEM_LOAI_BENH: async (_, args,headers) => {
@@ -166,7 +166,7 @@ const resolvers = {
                 return { success: true, code: 200, message: "Successful" }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         SUA_LOAI_BENH: async (_, args,headers) => {
@@ -174,13 +174,13 @@ const resolvers = {
             if (isValid) {
                 let res1 = await LOAI_BENH.findOne({ _id: args._id, is_deleted: false })
                 if (!res1) {
-                    return { success: false, code: 404, message: "Not found" }
+                    throw new PersistedQueryNotFoundError("Query not found")
                 }
                 await LOAI_BENH.findOneAndUpdate({ _id: args._id }, { ...args }, { new: true })
                 return { success: true, code: 200, message: "Successful" }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         XOA_LOAI_BENH: async (_, args,headers) => {
@@ -192,100 +192,91 @@ const resolvers = {
                     return { success: true, code: 200, message: "Successfully"}
                 }
                 else {
-                    return { success: false, code: 404, message: "Not found" }
+                    throw new PersistedQueryNotFoundError("Query not found")
                 }
             }
             else {
-                return { success: false, code: 190, message: "Access not denied" }
+                throw new AuthenticationError("Access is denied")
             }
         },
         TAO_TAI_KHOAN: async (_, args) => {
             let res = await TAI_KHOAN.findOne({ email: args.email })
             if (res) {
-                return { success: false, code: 401, message: "Địa chỉ email đã tồn tại" }
+                throw new UserInputError("Địa chỉ email đã tồn tại")
             }
 
             let hash = await encode(args.mat_khau);
             const TAI_KHOAN_MOI = new TAI_KHOAN({ ...args, mat_khau: hash })
-            let doc2 = await TAI_KHOAN_MOI.save()
-            return { success: true, code: 200, message: "Successfully", doc: doc2 }
+            let doc = await TAI_KHOAN_MOI.save()
+            return doc
         },
         SUA_TAI_KHOAN: async (_, args) => {
-            let res1 = await TAI_KHOAN.findOne({ _id: args._id, is_deleted: false })
-            console.log(res1);
-            if (!res1) {
-                return { success: false, code: 404, message: "Not found" }
+            let res = await TAI_KHOAN.findOne({ _id: args._id, is_deleted: false })
+            if (!res) {
+                throw new PersistedQueryNotFoundError("Query not found")
             }
             if (args.mat_khau) {
-                const saltRounds = 10;
                 let hash = await encode(args.mat_khau);
                 if (!hash) {
-                    return { success: false, code: 401, message: "Hash password failed" }
+                    throw new UserInputError("Địa chỉ email hoặc mật khẩu không đúng")
                 }
                 args.mat_khau = hash
             }
-            let res2 = await TAI_KHOAN.findOneAndUpdate({ _id: args._id }, { ...args }, { new: true })
-            return { success: true, code: 200, message: "Successfully", doc: res2 }
+            let doc = await TAI_KHOAN.findOneAndUpdate({ _id: args._id }, { ...args }, { new: true })
+            return doc
         },
         XOA_TAI_KHOAN: async (_, args) => {
-            let res1 = await TAI_KHOAN.findOne({ _id: args._id }, { is_deleted: false })
-            if (res1) {
-                let res2 = await TAI_KHOAN.findOneAndUpdate({ _id: args._id }, { is_deleted: true }, { new: true })
-                return { success: true, code: 200, message: "Successfully", doc: res2 }
+            let res = await TAI_KHOAN.findOne({ _id: args._id }, { is_deleted: false })
+            if (res) {
+                await TAI_KHOAN.findOneAndUpdate({ _id: args._id }, { is_deleted: true }, { new: true })
+                return { success: true, code: 200, message: "Successfully" }
             }
             else {
-                return { success: false, code: 404, message: "Not found" }
+                throw new PersistedQueryNotFoundError("Query not found")
             }
         },
         KHOI_PHUC_TAI_KHOAN: async (_, args) => {
-            let res1 = await TAI_KHOAN.findOne({ _id: args._id }, { is_deleted: true })
-            if (res1) {
-                let res2 = await TAI_KHOAN.findOneAndUpdate({ _id: args._id }, { is_deleted: false }, { new: true })
-                return { success: true, code: 200, message: "Successfully", doc: res2 }
+            let res = await TAI_KHOAN.findOne({ _id: args._id }, { is_deleted: true })
+            if (res) {
+                await TAI_KHOAN.findOneAndUpdate({ _id: args._id }, { is_deleted: false }, { new: true })
+                return { success: true, code: 200, message: "Successfully" }
             }
             else {
-                return { success: false, code: 404, message: "Not found" }
+                throw new PersistedQueryNotFoundError("Query not found")
             }
         },
         DANG_NHAP: async (_, args) => {
-            let res = await TAI_KHOAN.findOne({ email: args.email, is_deleted: false })
-            if (!res) {
-                return { success: false, code: 401, message: "Địa chỉ email hoặc mật khẩu không đúng" }
+            let doc = await TAI_KHOAN.findOne({ email: args.email, is_deleted: false })
+            if (!doc) {
+                throw new UserInputError("Địa chỉ email hoặc mật khẩu không đúng")
             }
-            let valid = await compare(args.mat_khau, res.mat_khau);
+            let valid = await compare(args.mat_khau, doc.mat_khau);
             if (!valid) {
-                return { success: false, code: 401, message: "Địa chỉ email hoặc mật khẩu không đúng" }
+                throw new UserInputError("Địa chỉ email hoặc mật khẩu không đúng")
             }
             let accessToken = createToken({ payload: args, settings: { expiresIn: '1h' } })
-            console.log(accessToken);
-            return { success: true, code: 200, message: "Successfully", doc: res, accessToken }
+            return { accessToken, doc }
         },
         QUEN_MAT_KHAU: async (_, args) => {
             let res = await TAI_KHOAN.findOne({ email: args.email, is_deleted: false })
             if (!res) {
-                return { success: false, code: 404, message: "Not found" }
+                throw new PersistedQueryNotFoundError("Query not found")
             }
-            let status = await sendMail(args.email, "Xác thực email tài khoản Phòng Mạch Tư", "Đường dẫn đổi lại mật khẩu là: https://abc.com/change-password")
-            console.log(status);
+            await sendMail(args.email, "Xác thực email tài khoản Phòng Mạch Tư", "Đường dẫn đổi lại mật khẩu là: https://abc.com/change-password")
             return { success: true, code: 200, message: "Successfully" }
         },
         DOI_MAT_KHAU: async (_, args) => {
-            let res1 = await TAI_KHOAN.findOne({ _id: args._id, is_deleted: false })
-            if (!res1) {
-                return { success: false, code: 404, message: "Not found" }
+            let res = await TAI_KHOAN.findOne({ _id: args._id, is_deleted: false })
+            if (!res) {
+                throw new PersistedQueryNotFoundError("Query not found")
             }
-            let valid = await compare(args.mat_khau_cu, res1.mat_khau);
+            let valid = await compare(args.mat_khau_cu, res.mat_khau);
             if (!valid) {
-                return { success: false, code: 401, message: "Mật khẩu không đúng" }
-
+                throw new UserInputError("Mật khẩu không đúng")
             }
-            const saltRounds = 10;
             let hash = await encode(args.mat_khau);
-            let res2 = await TAI_KHOAN.findOneAndUpdate({ _id: args._id }, { mat_khau: hash }, { new: true })
-            if (!res2) {
-                return { success: false, code: 401, message: res2.message }
-            }
-            return { success: true, code: 200, message: "Successfully", doc: res2 }
+            let doc = await TAI_KHOAN.findOneAndUpdate({ _id: args._id }, { mat_khau: hash }, { new: true })
+            return doc
         }
 
     }

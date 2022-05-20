@@ -13,16 +13,7 @@ const typeTAI_KHOAN = gql`
         created_at: Date,
         updated_at: Date,
     }       
-    type TAI_KHOAN_RESPONSE {
-        code: Int
-        success: Boolean
-        message: String
-        doc: TAI_KHOAN
-    }
     type AUTHENCATION_RESPONSE {
-        code: Int
-        success: Boolean
-        message: String
         accessToken: String
         doc: TAI_KHOAN
     }
