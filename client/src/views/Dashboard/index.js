@@ -12,7 +12,7 @@ function App() {
   const [patrientSelected, SetPatrientSelected] = useState()
   const { loading, error, data } = useQuery(getAll);
 
-  if (loading) return <div className="loading">Loading...</div>;
+  // if (loading) return <div className="loading">Loading...</div>;
   return <div className="data">
     <Breadcrumb />
     <div className="container">
@@ -75,7 +75,7 @@ function App() {
             }
           }
         ]}
-        data={data.DS_BENH_NHAN}
+        data={data?.DS_BENH_NHAN.doc}
         controlAddOn={() => (
           <div className="date-picker"
             style={{

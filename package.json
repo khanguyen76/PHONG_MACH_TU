@@ -1,17 +1,15 @@
 {
-  "name": "QuanLiPhongMachTu",
+  "name": "quan_li_phong_mach_tu",
   "version": "1.0.0",
   "description": "",
   "main": "serve.js",
   "scripts": {
     "start": "concurrently \"cd server && node server.js\" \"cd client && npm start\""
   },
-  "homepage": "http://localhost:3000/",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/icons": "^4.11.3",
     "concurrently": "^4.0.1"
   },
   "devDependencies": {}
