@@ -23,7 +23,7 @@ function App() {
           </div>
         </div>
 
-        <form>
+        <form className="mt-2">
           <div className="input-container">
             <label>Tên đăng nhập</label>
             <input type="text" name="username" required/>
@@ -31,7 +31,10 @@ function App() {
 
           <div className="input-container">
             <label>Mật khẩu</label>
-            <input type="password" name="password" required/>
+            <div className="pwd-display">
+              <input type="password" name="password" className="pwd-field" required/>
+              <span className="show-pwd-icon">b</span>
+            </div>
           </div>
 
           <div className="s-line mt-2 mb-2">

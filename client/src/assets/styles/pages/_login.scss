@@ -15,6 +15,10 @@
   margin: 10% 39%;
 }
 
+.change-pwd-form {
+  margin: 10% 37%;
+}
+
 
 
 .s-line {
@@ -41,6 +45,20 @@ input[type="password"] {
   font-family: $font-primary;
 }
 
+
+.pwd-display {
+  display: flex;
+  vertical-align: middle;
+  justify-content: center;
+}
+
+.show-pwd-icon {
+  float: right;
+}
+
+.pwd-field {
+  width: 100%;
+}
 
 
 .guide-line {
