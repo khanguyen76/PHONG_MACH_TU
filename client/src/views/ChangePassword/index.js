@@ -5,11 +5,25 @@ import { Redirect } from 'react-router-dom'
 function App() {
   const [data, setData] = React.useState(null);
 
+  const [errorMessage, setErrorMessage] = React.useState("");
+
   React.useEffect(() => {
     fetch("/api/hello")
       .then((res) => res.json())
       .then((data) => setData(data.message));
   }, []);
+
+
+  const checkConfirmPwd = () => {
+    var newPwd = document.getElementById("newPwd").value;
+    var confirmPwd = document.getElementById("confirmPwd").value;
+
+    if (newPwd !== confirmPwd) {
+      setErrorMessage("Password doesn't match !");
+    } else {
+      setErrorMessage("");
+    }
+  };
 
 
   return (
@@ -39,12 +53,16 @@ function App() {
 
           <div className="input-container">
             <label>Xác nhận mật khẩu</label>
-            <input id="confirmPwd" type="password" name="password" required/>
+            <input id="confirmPwd" type="password" name="password" onChange={checkConfirmPwd} required/>
+          </div>
+
+          <div className="mt-1 mb-1 err-msg">
+            <span>{errorMessage}</span>
           </div>
 
           <button type="submit" className="btn btn--primary mt-2 mb-2 btn-login">THAY ĐỔI MẬT KHẨU</button>
 
-          <span className="guide-line">Trở về<a href="/" className="guide-link"> Trang chủ</a></span>
+          <span className="guide-line">Trở về  <a href="/" className="guide-link"> Trang chủ</a></span>
         </form>
       </div>
     </div>

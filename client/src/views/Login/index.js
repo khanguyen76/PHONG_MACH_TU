@@ -14,7 +14,6 @@ function App() {
 
   return (
     <div>
-
       <div className="no-auth-form login-form ml-2 mr-2">
         <div className="s-line">
           <h1 className="mt-1">Đăng nhập</h1>
@@ -31,10 +30,7 @@ function App() {
 
           <div className="input-container">
             <label>Mật khẩu</label>
-            <div className="pwd-display">
-              <input type="password" name="password" className="pwd-field" required/>
-              <span className="show-pwd-icon">b</span>
-            </div>
+            <input type="password" name="password" className="pwd-field" required/>
           </div>
 
           <div className="s-line mt-2 mb-2">
