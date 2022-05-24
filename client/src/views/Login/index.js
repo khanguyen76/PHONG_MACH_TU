@@ -5,6 +5,8 @@ import { Redirect } from 'react-router-dom'
 function App() {
   const [data, setData] = React.useState(null);
 
+  const [errorMessage, setErrorMessage] = React.useState(" ");
+
   React.useEffect(() => {
     fetch("/api/hello")
       .then((res) => res.json())
@@ -25,12 +27,16 @@ function App() {
         <form className="mt-2">
           <div className="input-container">
             <label>Tên đăng nhập</label>
-            <input type="text" name="username" required/>
+            <input id="usename" type="text" name="username" required/>
           </div>
 
           <div className="input-container">
             <label>Mật khẩu</label>
-            <input type="password" name="password" className="pwd-field" required/>
+            <input id="password" type="password" name="password" className="pwd-field" required/>
+          </div>
+
+          <div className="msg-height err-msg">
+            <span>{errorMessage}</span>
           </div>
 
           <div className="s-line mt-2 mb-2">

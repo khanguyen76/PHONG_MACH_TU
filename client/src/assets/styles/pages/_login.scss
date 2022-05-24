@@ -60,8 +60,17 @@ input[type="password"] {
   width: 100%;
 }
 
+
+.msg-height {
+  height: 8px;
+}
+
 .err-msg {
   color: red;
+}
+
+.success-msg {
+  color: blue;
 }
 
 .guide-line {

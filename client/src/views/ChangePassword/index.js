@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 function App() {
   const [data, setData] = React.useState(null);
 
-  const [errorMessage, setErrorMessage] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState(" ");
 
   React.useEffect(() => {
     fetch("/api/hello")
@@ -19,9 +19,9 @@ function App() {
     var confirmPwd = document.getElementById("confirmPwd").value;
 
     if (newPwd !== confirmPwd) {
-      setErrorMessage("Password doesn't match !");
+      setErrorMessage("New password doesn't match !");
     } else {
-      setErrorMessage("");
+      setErrorMessage(" ");
     }
   };
 
@@ -56,7 +56,7 @@ function App() {
             <input id="confirmPwd" type="password" name="password" onChange={checkConfirmPwd} required/>
           </div>
 
-          <div className="mt-1 mb-1 err-msg">
+          <div className="mt-1 mb-1 msg-height err-msg">
             <span>{errorMessage}</span>
           </div>
 

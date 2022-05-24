@@ -5,14 +5,27 @@ import { Redirect } from 'react-router-dom'
 function App() {
   const [data, setData] = React.useState(null);
 
-  const [errorMessage, setErrorMessage] = React.useState("");
-  const [isSubmitted, setIsSubmitted] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const [messageColor, setMessageColor] = React.useState("success-msg");
 
   React.useEffect(() => {
     fetch("/api/hello")
       .then((res) => res.json())
       .then((data) => setData(data.message));
   }, []);
+
+
+  const checkEmailSendSuccess = (event) => {
+    event.preventDefault();
+
+    var email = document.getElementById("email").value;
+    
+    if (email !== "123123") {
+      setMessageColor("err-msg");
+    } else {
+      setMessageColor("success-msg");
+    }
+  };
 
   return (
     <div>
@@ -30,13 +43,17 @@ function App() {
         <form className="mt-2">
           <div className="input-container">
             <label>Email</label>
-            <input type="text" name="email" required/>
+            <input id="email" type="text" name="email" required/>
           </div>
 
-          <button type="submit" className="btn btn--primary mt-2 mb-2 btn-login">GỬI EMAIL</button>
+          <div className={'msg-height ' + messageColor}>
+            <span>{message}</span>
+          </div>
+
+          <button type="submit" className="btn btn--primary mt-2 mb-2 btn-login" onClick={checkEmailSendSuccess}>GỬI EMAIL</button>
 
           <div className="guide-line">
-            <span>Bạn đã có tài khoản ? <a href="/auth/login" className="guide-link">Đăng nhập</a></span>
+            <span>Trở về trang <a href="/auth/login" className="guide-link">Đăng nhập</a></span>
           </div>
         </form>
 
