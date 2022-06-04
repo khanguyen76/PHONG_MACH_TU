@@ -142,14 +142,8 @@ export default function () {
             textAlign: "right",
             accessor: (row) => (
               <div className="group-button">
-<<<<<<< HEAD
                 <button className="btn btn__icon btn__outline btn__outline--warning mr-1"><EditIcon /></button>
                 <button onClick={() => handleDeleteItem(row._id, row.ho_ten)} className="btn btn__icon btn__outline btn__outline--danger mr-2"><DeleteIcon /></button>
-=======
-                <button ><PrintIcon  style={{color:"#5AB88A", background:"white"}}/></button>
-                <button> <CreateIcon  style={{color:"#B99D0C", background:"white"}}/> </button>
-                <button> <DeleteIcon  style={{color:"#BF2A2A", background:"white"}}/> </button>
->>>>>>> 2c5ee0c91118562d8f606421cb9d1a27b818041e
               </div>
             ),
             props: {
