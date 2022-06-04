@@ -3,17 +3,23 @@ import React, { useState, useEffect, useMemo } from "react";
 import Grid from '@material-ui/core/Grid';
 import { useQuery } from "@apollo/client";
 import { getPage } from "../../graphql-queries/THUOC";
+// Material UI
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+// Components
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
-import CalendarIcon from '@material-ui/icons/CalendarToday';
-
+import Notify from "../../components/notify"
+// Vendors
+import moment from 'moment';
+import Swal from 'sweetalert2';
 export default function () {
   console.log("re-render");
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4
   })
-  const { loading, error, data } = useQuery(getPage, {
+  const { loading, error, data, refetch } = useQuery(getPage, {
     variables: params,
     fetchPolicy: 'network-only'
   });
@@ -21,7 +27,34 @@ export default function () {
   const handleChangePage = (pageNumber) => {
     setParams({ ...params, page: pageNumber })
   }
-
+  const handleFilter = ({key,value}) => {
+    let filter = params.search || {}
+    if(value){
+      filter[key] = value
+    }
+    else{
+      delete filter[key]
+    }
+    console.log(filter);
+    setParams({...params,search:filter})
+    refetch({...params,search:filter})
+  }
+  const handleDeleteItem = (name) => {
+    Swal.fire({
+      text: `Bạn có chắc muốn xoá thuốc ${name}?`,
+      icon: 'question',
+      showConfirmButton: false,
+      showDenyButton: true,
+      showCancelButton: true,
+      denyButtonText: 'Xoá',
+      cancelButtonText: 'Huỷ bỏ',
+      reverseButtons: true
+    }).then(async (result) => {
+      if (result.isDenied) {
+        
+      }
+    })
+  }
   // if (loading) return <div className="loading">Loading...</div>;
   return <div className="data">
     <Breadcrumb
@@ -43,6 +76,7 @@ export default function () {
       <Table
         isLoading={loading}
         isSort={true}
+        onFilter={handleFilter}
         columns={[
           {
             label: "STT",
@@ -54,11 +88,11 @@ export default function () {
           },
           {
             label: "Tên thuốc",
-            isSearchable: true,
+            isSearchable: 'ten_thuoc',
             props: {
               width: 300
             },
-            accessor: row => row.ten_thuoc
+            accessor: 'ten_thuoc'
           },
           {
             label: "Đơn vị",
@@ -83,11 +117,10 @@ export default function () {
           {
             label: "",
             textAlign: "right",
-            accessor: () => (
+            accessor: (row) => (
               <div className="group-button">
-                <button>In</button>
-                <button>Sửa</button>
-                <button>Xoá</button>
+                <button className="btn btn__icon btn__outline btn__outline--warning mr-1"><EditIcon /></button>
+                <button onClick={()=>handleDeleteItem(row.ten_thuoc)} className="btn btn__icon btn__outline btn__outline--danger mr-2"><DeleteIcon /></button>
               </div>
             ),
             props: {

@@ -50,7 +50,9 @@ const resolvers = {
                     search.ngay_kham = {$gte: search.ngay_kham,$lte: moment(search.ngay_kham).add(1,'days')}
                 }
                 let count = await PHIEU_KHAM.countDocuments({ ...search , is_deleted: false })
-                let doc = await PHIEU_KHAM.find({ ...search , is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                let doc = await PHIEU_KHAM
+                .find({ ...search , is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                .sort({ 'ngay_kham': -1 })
                 return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
             }
             else {
@@ -142,12 +144,15 @@ const resolvers = {
                 throw new AuthenticationError("Access is denied")
             }
         },
-        DS_THUOC: async (_,{page,size},headers) => {
+        DS_THUOC: async (_,{search,page,pageSize},headers) => {
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
-                let count = await THUOC.countDocuments({ is_deleted: false })
-                let doc = await THUOC.find({ is_deleted: false },{},{skip:(page-1)*size,limit:size})
-                return { success: true, code: 200, message: "Successful", total: count, pages: size ? Math.ceil(count/size):null, doc }
+                if(search?.ten_thuoc){
+                    search.ten_thuoc = new RegExp(`${search.ten_thuoc}`,'i')
+                }
+                let count = await THUOC.countDocuments({ ...search, is_deleted: false })
+                let doc = await THUOC.find({ ...search, is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -170,7 +175,8 @@ const resolvers = {
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let count = await TAI_KHOAN.countDocuments({ is_deleted: false })
-                let doc = await TAI_KHOAN.find({ is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                let doc = await TAI_KHOAN
+                .find({ is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
                 return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
             }
             else {

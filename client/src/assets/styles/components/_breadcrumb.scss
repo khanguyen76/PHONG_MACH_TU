@@ -1,9 +1,15 @@
 .breadcrumb {
     margin: 20px 0;
+    h1{
+        font-weight: 500;
+        font-size: 3rem;
+    }
     ul {
         display: flex;
         padding: 10px 0;
         li {
+            font-weight: 500;
+            font-size: 1.25rem;
             &:not(:first-child) {
                 margin-left: 10px;
                 &::before {

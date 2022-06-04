@@ -11,9 +11,28 @@
         background-color: $primary-color-1;
         color: $white-color-1;
     }
+    &__icon{
+        padding: 4px 5px;
+    }
+    &__outline{
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 5px;
+        background-color: transparent;
+        &--primary{
+            border-color: $primary-color-1;
+            color: $primary-color-1;
+        }
+        &--danger{
+            border-color: $red-color-1;
+            color: $red-color-1;
+        }
+        &--warning{
+            border-color: $yellow-color-1;
+            color: $yellow-color-1;
+        }
+        &:hover,&:active,&:focus{
+            background-color: #eee;
+        }
+    }
 };
-
-
-.btn-login{
-    width: 100%
-}

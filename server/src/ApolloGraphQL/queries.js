@@ -17,7 +17,7 @@ const mutation = gql`
         DS_CACH_DUNG: [CACH_DUNG]
         CACH_DUNG (_id: ID!): CACH_DUNG
 
-        DS_THUOC (page: Int,size: Int): DS_THUOC_RESPONSE
+        DS_THUOC (search: TIM_THUOC, page: Int,pageSize: Int): DS_THUOC_RESPONSE
         THUOC (_id: ID!): THUOC
 
         DS_TAI_KHOAN (page: Int,pageSize: Int): DS_TAI_KHOAN_RESPONSE

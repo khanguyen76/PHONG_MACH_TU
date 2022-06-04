@@ -1,52 +1,95 @@
 
-import React, { useState, useEffect, useMemo } from "react";
-import Grid from '@material-ui/core/Grid';
-import { useQuery } from "@apollo/client";
-import { getPage } from "../../graphql-queries/BENH_NHAN";
-import Breadcrumb from "../../components/breadcrumb";
-import Table from "../../components/table";
-import CalendarIcon from '@material-ui/icons/CalendarToday';
-
+import React, { useState, useEffect, useMemo } from "react"
+import Grid from '@material-ui/core/Grid'
+import { useQuery, useMutation } from "@apollo/client"
+import { getPage, deleteItemById } from "../../graphql-queries/BENH_NHAN"
+// Material UI
+import EditIcon from '@material-ui/icons/Edit'
+import DeleteIcon from '@material-ui/icons/Delete'
+// Components
+import Breadcrumb from "../../components/breadcrumb"
+import Table from "../../components/table"
+import Notify from "../../components/notify"
+// Vendors
+import moment from 'moment'
+import Swal from 'sweetalert2'
 export default function () {
-  const [params,setParams] = useState({
+  const [notify, setNotify] = useState()
+  const [params, setParams] = useState({
     page: 1,
     pageSize: 4
   })
 
-  const { loading, error, data,refetch } = useQuery(getPage, {
-    variables: params,  
-    fetchPolicy:'network-only'
+  const { loading, error, data, refetch } = useQuery(getPage, {
+    variables: params,
+    fetchPolicy: 'network-only'
   });
 
+  const [xoaPhieuKham] = useMutation(deleteItemById);
+
   const handleChangePage = (pageNumber) => {
-    setParams({...params,page:pageNumber})
+    setParams({ ...params, page: pageNumber })
   }
-  const handleFilter = ({key,value}) => {
-    console.log(key,value);
+  const handleFilter = ({ key, value }) => {
     let filter = params.search || {}
-    if(value){
+    if (value) {
       filter[key] = value
     }
-    else{
+    else {
       delete filter[key]
     }
-    console.log(filter);
-    console.log({...params,search:filter});
-    setParams({...params,search:filter})
-    refetch({...params,search:filter})
+    setParams({ ...params, search: filter })
+    refetch({ ...params, search: filter })
   }
-
+  const handleDeleteItem = (id, name) => {
+    Swal.fire({
+      text: `Bạn có chắc muốn xoá bệnh nhân ${name}?`,
+      icon: 'question',
+      showConfirmButton: false,
+      showDenyButton: true,
+      showCancelButton: true,
+      denyButtonText: 'Xoá',
+      cancelButtonText: 'Huỷ bỏ',
+      reverseButtons: true
+    }).then(async (result) => {
+      if (result.isDenied) {
+        let res = await xoaPhieuKham({
+          variables: { id }
+        })
+        if (res.data.XOA_BENH_NHAN.success) {
+          setNotify({
+            type: "success",
+            message: "Bệnh nhân đã được xoá thành công.",
+            timeout: 3000
+          })
+        }
+        else {
+          setNotify({
+            type: "error",
+            message: "Đã có lỗi xảy ra. Xoá không thành công",
+            timeout: 3000
+          })
+        }
+      }
+    })
+  }
   // if (loading) return <div className="loading">Loading...</div>;
-  return <div className="data">
-    <Breadcrumb 
+  return <div className="page-wrapper">
+    {
+      useMemo(() => (
+        <Notify option={notify} />
+      ), [notify])
+    }
+
+    <Breadcrumb
       titlePage="Bệnh nhân"
       crumbs={[
         {
-          label:"Trang chủ",
-          path:'/'
+          label: "Trang chủ",
+          path: '/'
         },
         {
-          label:"bệnh nhân"
+          label: "Bệnh nhân"
         }
       ]}
     />
@@ -69,7 +112,7 @@ export default function () {
           },
           {
             label: "Họ tên",
-            accessor:'ho_ten',
+            accessor: 'ho_ten',
             isSearchable: 'ho_ten',
             props: {
               width: 300
@@ -77,7 +120,7 @@ export default function () {
           },
           {
             label: "Giới tính",
-            accessor:'gioi_tinh',
+            accessor: 'gioi_tinh',
             textAlign: "center",
             props: {
               width: 150
@@ -85,7 +128,7 @@ export default function () {
           },
           {
             label: "Năm sinh",
-            accessor:'nam_sinh',
+            accessor: 'nam_sinh',
             textAlign: "center",
             props: {
               width: 150
@@ -93,16 +136,15 @@ export default function () {
           },
           {
             label: "Địa chỉ",
-            accessor:'dia_chi',
+            accessor: 'dia_chi',
           },
           {
             label: "",
             textAlign: "right",
-            accessor: () => (
+            accessor: (row) => (
               <div className="group-button">
-                <button>In</button>
-                <button>Sửa</button>
-                <button>Xoá</button>
+                <button className="btn btn__icon btn__outline btn__outline--warning mr-1"><EditIcon /></button>
+                <button onClick={() => handleDeleteItem(row._id, row.ho_ten)} className="btn btn__icon btn__outline btn__outline--danger mr-2"><DeleteIcon /></button>
               </div>
             ),
             props: {

@@ -3,9 +3,16 @@ import React, { useState, useEffect, useMemo } from "react";
 import Grid from '@material-ui/core/Grid';
 import { useQuery } from "@apollo/client";
 import { getPage } from "../../graphql-queries/TAI_KHOAN";
+// Material UI
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+// Components
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
-
+import Notify from "../../components/notify"
+// Vendors
+import moment from 'moment';
+import Swal from 'sweetalert2';
 export default function () {
   console.log("re-render");
   const [params, setParams] = useState({
@@ -20,7 +27,22 @@ export default function () {
   const handleChangePage = (pageNumber) => {
     setParams({ ...params, page: pageNumber })
   }
-
+  const handleDeleteItem = (email) => {
+    Swal.fire({
+      text: `Bạn có chắc muốn xoá tài khoản ${email}?`,
+      icon: 'question',
+      showConfirmButton: false,
+      showDenyButton: true,
+      showCancelButton: true,
+      denyButtonText: 'Xoá',
+      cancelButtonText: 'Huỷ bỏ',
+      reverseButtons: true
+    }).then(async (result) => {
+      if (result.isDenied) {
+        
+      }
+    })
+  }
   // if (loading) return <div className="loading">Loading...</div>;
   return <div className="data">
     <Breadcrumb
@@ -89,10 +111,10 @@ export default function () {
           {
             label: "",
             textAlign: "right",
-            accessor: () => (
+            accessor: (row) => (
               <div className="group-button">
-                <button>Sửa</button>
-                <button>Xoá</button>
+                <button className="btn btn__icon btn__outline btn__outline--warning mr-1"><EditIcon /></button>
+                <button onClick={()=>handleDeleteItem(row.email)} className="btn btn__icon btn__outline btn__outline--danger mr-2"><DeleteIcon /></button>
               </div>
             ),
             props: {
