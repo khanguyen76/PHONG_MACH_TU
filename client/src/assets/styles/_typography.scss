@@ -9,3 +9,6 @@ a{
 input,select,textarea,button{
     font-family: $font-primary;
 }
+.no-wrap{
+    white-space: nowrap;
+}

@@ -1,9 +1,12 @@
 import React from 'react'
-import { BrowserRouter, Route, NavLink, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, NavLink, useLocation, useHistory } from "react-router-dom";
 import nav from '../../../constants/nav';
 export default function () {
-    const location = useLocation()
-    console.log(location.pathname);
+    const history = useHistory()
+    const handleLogout = () =>{
+        localStorage.removeItem('access_token')
+        history.push('/auth/dang-nhap')
+    }
     return (
         <Route>
         <div className="sidebar">
@@ -25,39 +28,6 @@ export default function () {
                         </li>
                     ))
                 }
-
-                {/* <li className="menu__item">
-                    <NavLink to="/#">
-                        <div className="icon">
-                            <i className="fas fa-user-injured"></i>
-                        </div>
-                        <label>Bệnh nhân</label>
-                    </NavLink>
-                </li>
-                <li className="menu__item">
-                    <NavLink to="/#">
-                        <div className="icon">
-                            <i className="fas fa-pills"></i>
-                        </div>
-                        <label>Thuốc</label>
-                    </NavLink>
-                </li>
-                <li className="menu__item">
-                    <NavLink to="/#">
-                        <div className="icon">
-                            <i className="fas fa-chart-bar"></i>
-                        </div>
-                        <label>Báo cáo</label>
-                    </NavLink>
-                </li>
-                <li className="menu__item">
-                    <NavLink to="/#">
-                        <div className="icon">
-                            <i className="fas fa-user-friends"></i>
-                        </div>
-                        <label>Tài khoản</label>
-                    </NavLink>
-                </li> */}
             </ul>
             <ul className="menu">
                 <li className="menu__item">
@@ -69,13 +39,12 @@ export default function () {
                     </NavLink>
                 </li>
                 <li className="menu__item">
-                    <NavLink to="/dang-xuat">
+                    <a onClick={handleLogout}>
                         <div className="icon">
                             <i className="fas fa-sign-out-alt"></i>
                         </div>
-
                         <label>Đăng xuất</label>
-                    </NavLink>
+                    </a>
                 </li>
             </ul>
         </div>

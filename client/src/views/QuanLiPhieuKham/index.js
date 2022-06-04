@@ -12,10 +12,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
 import Notify from "../../components/notify"
+import LapPhieuKham from "./LapPhieuKham"
 // Vendors
 import moment from 'moment';
 import Swal from 'sweetalert2';
 export default function () {
+  const [openModal, setOpenModal] = useState(false)
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4
@@ -73,8 +75,9 @@ export default function () {
       ]}
     />
     <div className="container">
+      <LapPhieuKham openModal={openModal} onClose={()=>setOpenModal(false)} />
       <div style={{ textAlign: "right" }}>
-        <button className="btn btn--primary mb-2">Lập phiếu khám</button>
+        <button className="btn btn--primary mb-2" onClick={()=>setOpenModal(true)}>Lập phiếu khám</button>
       </div>
       <Table
         isLoading={loading}
@@ -132,7 +135,7 @@ export default function () {
             label: "",
             textAlign: "right",
             accessor: row => (
-              <div className="group-button">
+              <div className="group-button no-wrap">
                 <button className="btn btn__icon btn__outline btn__outline--primary mr-1"><PrintIcon /></button>
                 <button className="btn btn__icon btn__outline btn__outline--warning mr-1"><EditIcon /></button>
                 <button onClick={()=>handleDeleteItem(row.ngay_kham,row.benh_nhan.ho_ten)} className="btn btn__icon btn__outline btn__outline--danger mr-2"><DeleteIcon /></button>

@@ -17,3 +17,33 @@ export const getPage = gql`
         }
     }
 `
+
+export const login = gql`
+    mutation ($email: String!, $matKhau: String!) {
+        DANG_NHAP(email: $email, mat_khau: $matKhau) {
+            accessToken
+            doc {
+                _id
+                ho_ten
+                email
+                mat_khau
+                gioi_tinh
+                ngay_sinh
+                quyen
+            }
+        }
+    }
+`
+
+export const getProfile = gql`
+    query ($token: String!) {
+        TAI_KHOAN(token: $token) {
+            _id
+            ho_ten
+            email
+            gioi_tinh
+            ngay_sinh
+            quyen
+        }
+    }
+`

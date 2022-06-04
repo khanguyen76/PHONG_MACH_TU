@@ -22,5 +22,15 @@ const typeTAI_KHOAN = gql`
         accessToken: String
         doc: TAI_KHOAN
     }
+    type TAI_KHOAN_RESPONSE {
+        _id: ID,
+        ho_ten: String,
+        email: String,
+        gioi_tinh: String,
+        ngay_sinh: Date,
+        quyen: String,
+        created_at: Date,
+        updated_at: Date,
+    }
 `
 module.exports = typeTAI_KHOAN

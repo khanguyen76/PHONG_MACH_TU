@@ -23,10 +23,6 @@
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
 
-  // Prevent Chrome on Windows from adding a focus outline. For details, see
-  // https://github.com/twbs/bootstrap/pull/10951.
-  outline: 0;
-
   // When fading in the modal, animate it to slide down
   &.fade .modal-dialog {
     translate:(0, -25%);
@@ -76,8 +72,11 @@
 // Modal header
 // Top section of the modal w/ title and dismiss
 .modal-header {
-  padding: 5px;
+  padding: 20px;
   border-bottom: 1px solid #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 // Close icon
 .modal-header .close {
@@ -94,7 +93,7 @@
 // Where all modal content resides (sibling of .modal-header and .modal-footer)
 .modal-body {
   position: relative;
-  padding: 5px;
+  // padding: 5px;
 }
 
 // Footer (for actions)
@@ -147,6 +146,11 @@
 }
 
 .close-btn {
+  width: 40px;
+  height: 40px;
   color: rgb(59, 193, 35);
   padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

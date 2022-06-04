@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Routers from './router';
 import "./assets/styles/main.scss";
-// import { StateProvider } from './contexts';
+import { StateProvider } from './contexts';
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -15,6 +15,8 @@ const client = new ApolloClient({
 
 root.render(
   <ApolloProvider client={client}>
-    <Routers />
+    <StateProvider>
+      <Routers />
+    </StateProvider>
   </ApolloProvider>
 );

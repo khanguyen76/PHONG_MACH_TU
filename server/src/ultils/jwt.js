@@ -15,7 +15,17 @@ const verifyToken = (token) => {
         }
     });
 }
+const decodeToken = (token) => {
+    return new Promise((resolve,reject)=>{
+        try {
+            resolve(jwt.decode(token))
+        } catch (error) {
+            resolve(false)
+        }
+    });
+}
 module.exports = {
     createToken,
-    verifyToken
+    verifyToken,
+    decodeToken
 }

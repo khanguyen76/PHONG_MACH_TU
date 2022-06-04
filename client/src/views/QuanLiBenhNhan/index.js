@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react"
-import Grid from '@material-ui/core/Grid'
 import { useQuery, useMutation } from "@apollo/client"
 import { getPage, deleteItemById } from "../../graphql-queries/BENH_NHAN"
 // Material UI
@@ -14,6 +13,7 @@ import moment from 'moment'
 import Swal from 'sweetalert2'
 export default function () {
   const [notify, setNotify] = useState()
+
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4
@@ -141,7 +141,7 @@ export default function () {
             label: "",
             textAlign: "right",
             accessor: (row) => (
-              <div className="group-button">
+              <div className="group-button no-wrap">
                 <button className="btn btn__icon btn__outline btn__outline--warning mr-1"><EditIcon /></button>
                 <button onClick={() => handleDeleteItem(row._id, row.ho_ten)} className="btn btn__icon btn__outline btn__outline--danger mr-2"><DeleteIcon /></button>
               </div>
