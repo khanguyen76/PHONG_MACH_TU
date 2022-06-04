@@ -62,7 +62,12 @@ export default function ({
                     {
                         isSort && (
                             <div className="sort-box">
-                                {/* <select options={["Mới nhất", "Cũ nhất", "Từ A-Z", "Từ Z-A"]} /> */}
+                                <select>
+                                    <option value="newest">Mới nhất</option>
+                                    <option value="oldest">Cũ nhất</option>
+                                    <option value="name-A-Z">Từ A-Z</option>
+                                    <option value="name-Z-A">Từ Z-A</option>
+                                </select>
                             </div>
                         )
                     }

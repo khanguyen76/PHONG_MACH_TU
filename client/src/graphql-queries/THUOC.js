@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const getPage = gql`
-    query ($page: Int, $size: Int) {
-        DS_THUOC(page: $page, size: $size) {
+    query ($page: Int, $pageSize: Int, , $search: TIM_THUOC) {
+        DS_THUOC(page: $page, pageSize: $pageSize, search: $search) {
             pages
             total
             doc {

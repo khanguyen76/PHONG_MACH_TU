@@ -11,6 +11,9 @@ const typeTAI_KHOAN = gql`
         created_at: Date,
         updated_at: Date,
     }        
+    input TIM_THUOC{
+        ten_thuoc: String
+    } 
     type DS_THUOC_RESPONSE {
         pages: Int,
         total: Int

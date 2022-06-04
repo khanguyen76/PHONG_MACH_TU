@@ -12,7 +12,7 @@
     height: 100vh;
     overflow-x: hidden;
     direction: rtl;
-    box-shadow: 4px 0px 15px #ccc;
+    z-index: 1000;
     .logo{
         margin-bottom: 20px;
     }

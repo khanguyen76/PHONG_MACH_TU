@@ -1,0 +1,66 @@
+.notify{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    z-index: 900;
+    &__container{
+        position: relative;
+        background-color: #ccc;
+        padding: 14px 40px;
+        text-align: center;
+        transition: .3s;
+        animation: animate .3s;
+    }
+    &__message{
+        display: inline-flex;
+        color: #fff;
+        align-items: center;
+        .message__icon{
+            margin-right: 5px;
+        }
+    }
+    button{
+        position: absolute;
+        top: 50%;
+        right: 65px;
+        zoom: 0.6;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.10);
+        color: #fff;
+        &:hover{
+            background-color: rgba(0, 0, 0, 0.20);
+            color: #fff;
+        }
+    }
+    &--error{
+        .notify__container{
+            background: $red-color-2;
+        }
+    }
+    &--success{
+        .notify__container{
+            background: $green-color-1;
+        }
+    }
+    &--info{
+        .notify__container{
+            background: $blue-color-1;
+        }
+    }
+    &--closing{
+        .notify__container{
+            transform: translateY(-100%);
+        }
+    }
+}
+
+@keyframes animate {
+    from{
+        transform: translateY(-100%);
+    }
+    to{
+        transform: translateY(0);
+    }
+}
