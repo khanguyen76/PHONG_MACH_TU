@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useRef} from 'react'
 import SearchIcon from '@material-ui/icons/Search';
 
 import { logMissingFieldErrors } from '@apollo/client/core/ObservableQuery';
@@ -6,25 +6,27 @@ import TextBox from './textbox'
 import Select from '../components/select'
 
 export default function ({
-    className='',
+    className = '',
     columns,
     data = [],
     isSort,
     controlAddOn,
+    onFilter=()=>{},
     pagination,
     onPageChange,
     isLoading,
 }) {
-
-    const renderPagination = (totalPage) =>  {
+    let timeoutInput;
+    const selectRef = useRef(null)
+    const renderPagination = (totalPage) => {
         let arrayPage = []
         let pageActive = pagination.currentPage || 1
         for (let idx = 1; idx <= totalPage; idx++) {
             arrayPage.push(
-                <li 
-                key={idx} 
-                className={`page-item ${idx==pageActive?'active':''}`}
-                onClick={()=>onPageChange(idx)}
+                <li
+                    key={idx}
+                    className={`page-item ${idx == pageActive ? 'active' : ''}`}
+                    onClick={() => onPageChange(idx)}
                 >{idx}</li>
             )
         }
@@ -37,20 +39,19 @@ export default function ({
                 {
                     columns.filter(i => i.isSearchable)?.length > 0 && (
                         <div className="search-box">
-                            <select name="" id="" >
-                                {
-                                    columns.filter(i => i.isSearchable).map((col,key) => {
-                                        return (
-                                            <option
-                                                key={key}
-                                                value={typeof col.accessor == "function" ? col.isSearchable : col.accessor}
-                                            >
-                                                {col.label}
-                                            </option>)
-                                    })
-                                }
+                            <select ref={selectRef}>
+                                {columns.filter(i => i.isSearchable).map((i, key) => <option key={key} value={i.isSearchable}>{i.label}</option>)}
                             </select>
-                            <input type="text" placeholder='gõ vào đây...'/>
+                            <input type="text"
+                                onChange={e => {
+                                    clearTimeout(timeoutInput)
+                                    timeoutInput = setTimeout(() => {
+                                        console.log({key:selectRef.current.value, value:e.target.value});
+                                        onFilter({key:selectRef.current.value, value:e.target.value})
+                                    }, 300);
+                                }}
+                                autoComplete="off"
+                            />
                             <SearchIcon className="search-box__icon" />
                         </div>
                     )
@@ -61,7 +62,7 @@ export default function ({
                     {
                         isSort && (
                             <div className="sort-box">
-                                <Select options={["Mới nhất", "Cũ nhất", "Từ A-Z", "Từ Z-A"]} />
+                                {/* <select options={["Mới nhất", "Cũ nhất", "Từ A-Z", "Từ Z-A"]} /> */}
                             </div>
                         )
                     }
@@ -106,7 +107,10 @@ export default function ({
                         ))
                     }
                     {
-                        isLoading && <tr style={{textAlign:'center'}}><td colSpan={columns.length}>Loading...</td></tr>
+                        isLoading && <tr style={{ textAlign: 'center' }}><td colSpan={columns.length}>Loading...</td></tr>
+                    }
+                    {
+                        !isLoading && data && data.length == 0 && <tr style={{ textAlign: 'center' }}><td colSpan={columns.length}>Không dữ liệu nào được tìm thấy</td></tr>
                     }
                 </tbody>
             </table>

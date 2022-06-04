@@ -11,6 +11,9 @@ const typeBENH_NHAN = gql`
         created_at: Date,
         updated_at: Date,
     }
+    input TIM_BENH_NHAN{
+        ho_ten: String
+    } 
     type DS_BENH_NHAN_RESPONSE {
         pages: Int,
         total: Int

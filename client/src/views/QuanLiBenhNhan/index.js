@@ -15,13 +15,28 @@ export default function () {
     page: 1,
     pageSize: 4
   })
-  const { loading, error, data } = useQuery(getPage, {
+
+  const { loading, error, data,refetch } = useQuery(getPage, {
     variables: params,  
     fetchPolicy:'network-only'
   });
 
   const handleChangePage = (pageNumber) => {
     setParams({...params,page:pageNumber})
+  }
+  const handleFilter = ({key,value}) => {
+    console.log(key,value);
+    let filter = params.search || {}
+    if(value){
+      filter[key] = value
+    }
+    else{
+      delete filter[key]
+    }
+    console.log(filter);
+    console.log({...params,search:filter});
+    setParams({...params,search:filter})
+    refetch({...params,search:filter})
   }
 
   // if (loading) return <div className="loading">Loading...</div>;
@@ -44,6 +59,7 @@ export default function () {
       </div>
       <Table
         isLoading={loading}
+        onFilter={handleFilter}
         isSort={true}
         columns={[
           {
@@ -57,7 +73,7 @@ export default function () {
           {
             label: "Họ tên",
             accessor:'ho_ten',
-            isSearchable: true,
+            isSearchable: 'ho_ten',
             props: {
               width: 300
             }
@@ -74,7 +90,6 @@ export default function () {
             label: "Năm sinh",
             accessor:'nam_sinh',
             textAlign: "center",
-            isSearchable: true,
             props: {
               width: 150
             }
@@ -82,7 +97,6 @@ export default function () {
           {
             label: "Địa chỉ",
             accessor:'dia_chi',
-            isSearchable: true,
           },
           {
             label: "",
@@ -100,23 +114,8 @@ export default function () {
           }
         ]}
         data={data?.DS_BENH_NHAN.doc}
-        controlAddOn={() => (
-          <div className="date-picker"
-            style={{
-              marginRight: 40,
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer"
-            }}
-          >
-            <CalendarIcon style={{ marginRight: 10, fontSize: 14 }} />
-            <span style={{ fontWeight: 500 }}>Thứ ba, 13/10/2022</span>
-            <ExpandMoreIcon className="user-box__arrow" fontSize="small"/>
-
-          </div>
-        )}
         pagination={{
-          currentPage: params.page,
+          currentPage: params?.page,
           totalPage: data?.DS_BENH_NHAN.pages,
           totalRecord: data?.DS_BENH_NHAN.total,
         }}

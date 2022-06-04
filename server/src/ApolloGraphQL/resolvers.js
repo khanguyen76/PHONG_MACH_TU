@@ -15,11 +15,14 @@ const disableVerify = true
 const resolvers = {
     // QUERY
     Query: {
-        DS_BENH_NHAN: async (_,{page,pageSize},headers) => {
+        DS_BENH_NHAN: async (_,{search,page,pageSize},headers) => {
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
-                let count = await BENH_NHAN.countDocuments({ is_deleted: false })
-                let doc = await BENH_NHAN.find({ is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                if(search?.ho_ten){
+                    search.ho_ten = new RegExp(`${search.ho_ten}`,'i')
+                }
+                let count = await BENH_NHAN.countDocuments({ ...search, is_deleted: false })
+                let doc = await BENH_NHAN.find({ ...search , is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
                 return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
             }
             else {
@@ -163,6 +166,17 @@ const resolvers = {
                 throw new AuthenticationError("Access is denied")
             }
         },
+        DS_TAI_KHOAN: async (_,{page,pageSize},headers) => {
+            let isValid = disableVerify || await verifyToken(headers['access-token'])
+            if (isValid) {
+                let count = await TAI_KHOAN.countDocuments({ is_deleted: false })
+                let doc = await TAI_KHOAN.find({ is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
+            }
+            else {
+                throw new AuthenticationError("Access is denied")
+            }
+        }
     },
     PHIEU_KHAM: {
         benh_nhan: (_) => BENH_NHAN.findOne({ _id: _.ma_benh_nhan }),

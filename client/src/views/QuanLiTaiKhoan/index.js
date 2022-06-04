@@ -2,10 +2,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Grid from '@material-ui/core/Grid';
 import { useQuery } from "@apollo/client";
-import { getPage } from "../../graphql-queries/PHIEU_KHAM";
+import { getPage } from "../../graphql-queries/TAI_KHOAN";
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
-import CalendarIcon from '@material-ui/icons/CalendarToday';
 
 export default function () {
   console.log("re-render");
@@ -25,20 +24,20 @@ export default function () {
   // if (loading) return <div className="loading">Loading...</div>;
   return <div className="data">
     <Breadcrumb
-      titlePage="Khám bệnh"
+      titlePage="Tài khoản"
       crumbs={[
         {
           label: "Trang chủ",
           path: '/'
         },
         {
-          label: "khám bệnh"
+          label: "Tài khoản"
         }
       ]}
     />
     <div className="container">
       <div style={{ textAlign: "right" }}>
-        <button className="btn btn--primary mb-2">Lập phiếu khám</button>
+        <button className="btn btn--primary mb-2">Tạo tài khoản</button>
       </div>
       <Table
         isLoading={loading}
@@ -58,7 +57,7 @@ export default function () {
             props: {
               width: 300
             },
-            accessor: row => row.benh_nhan.ho_ten
+            accessor: row => row.ho_ten
           },
           {
             label: "Giới tính",
@@ -66,28 +65,32 @@ export default function () {
             props: {
               width: 150
             },
-            accessor: row => row.benh_nhan.gioi_tinh
+            accessor: row => row.gioi_tinh
           },
           {
-            label: "Năm sinh",
+            label: "Chức vụ",
             textAlign: "center",
-            isSearchable: true,
             props: {
               width: 150
             },
-            accessor: row => row.benh_nhan.nam_sinh
+            accessor: row => {
+              switch (row.quyen) {
+                case 'bacsi':
+                  return 'Bác sĩ'
+                case 'letan':
+                  return 'Lễ Tân'
+              }
+            }
           },
           {
-            label: "Địa chỉ",
-            isSearchable: true,
-            accessor: row => row.benh_nhan.dia_chi
+            label: "Email",
+            accessor: row => row.email
           },
           {
             label: "",
             textAlign: "right",
             accessor: () => (
               <div className="group-button">
-                <button>In</button>
                 <button>Sửa</button>
                 <button>Xoá</button>
               </div>
@@ -97,24 +100,11 @@ export default function () {
             }
           }
         ]}
-        data={data?.DS_PHIEU_KHAM.doc}
-        controlAddOn={() => (
-          <div className="date-picker"
-            style={{
-              marginRight: 40,
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer"
-            }}
-          >
-            <CalendarIcon style={{ marginRight: 10, fontSize: 14 }} />
-            <span style={{ fontWeight: 500 }}>Thứ ba, 13/10/2022</span>
-          </div>
-        )}
+        data={data?.DS_TAI_KHOAN.doc}
         pagination={{
           currentPage: params.page,
-          totalPage: data?.DS_PHIEU_KHAM.pages,
-          totalRecord: data?.DS_PHIEU_KHAM.total,
+          totalPage: data?.DS_TAI_KHOAN.pages,
+          totalRecord: data?.DS_TAI_KHOAN.total,
         }}
         onPageChange={handleChangePage}
       />

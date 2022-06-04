@@ -12,6 +12,11 @@ const typeTAI_KHOAN = gql`
         is_deleted: Boolean,
         created_at: Date,
         updated_at: Date,
+    }
+    type DS_TAI_KHOAN_RESPONSE {
+        pages: Int,
+        total: Int
+        doc: [TAI_KHOAN]
     }       
     type AUTHENCATION_RESPONSE {
         accessToken: String
