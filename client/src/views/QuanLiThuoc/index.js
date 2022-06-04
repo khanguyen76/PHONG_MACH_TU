@@ -9,7 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
 import Notify from "../../components/notify"
-import AddorChangeItem from "./ThemSuaThuoc"
+
 // Vendors
 import moment from 'moment';
 import Swal from 'sweetalert2';

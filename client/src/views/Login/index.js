@@ -1,4 +1,3 @@
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import React from "react";
 import { Redirect } from 'react-router-dom'
 
