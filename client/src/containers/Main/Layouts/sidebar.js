@@ -5,6 +5,7 @@ export default function () {
     const location = useLocation()
     console.log(location.pathname);
     return (
+        <Route>
         <div className="sidebar">
             <div className="logo">
                 <img src="/images/white_logo.png" alt="" />
@@ -79,5 +80,6 @@ export default function () {
                 </li>
             </ul>
         </div>
+        </Route>
     )
 }

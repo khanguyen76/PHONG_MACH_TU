@@ -1,0 +1,11 @@
+.btn{
+    &--hover:hover {
+            transition-property: color s;
+            transition-duration: .2s;
+            transition-timing-function: linear;
+            background-color:red;
+    }  
+    &:hover {
+        background-color: rgba(90, 184, 138, 0.8);;
+    }  
+}

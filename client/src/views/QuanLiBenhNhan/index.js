@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from "react";
 import Grid from '@material-ui/core/Grid';
 import { useQuery } from "@apollo/client";
@@ -6,6 +5,10 @@ import { getPage } from "../../graphql-queries/BENH_NHAN";
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
 import CalendarIcon from '@material-ui/icons/CalendarToday';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import PrintIcon from '@material-ui/icons/Print';
+import CreateIcon from '@material-ui/icons/Create';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 export default function () {
   const [params,setParams] = useState({
@@ -100,9 +103,9 @@ export default function () {
             textAlign: "right",
             accessor: () => (
               <div className="group-button">
-                <button>In</button>
-                <button>Sửa</button>
-                <button>Xoá</button>
+                <button ><PrintIcon  style={{color:"#5AB88A", background:"white"}}/></button>
+                <button> <CreateIcon  style={{color:"#B99D0C", background:"white"}}/> </button>
+                <button> <DeleteIcon  style={{color:"#BF2A2A", background:"white"}}/> </button>
               </div>
             ),
             props: {
