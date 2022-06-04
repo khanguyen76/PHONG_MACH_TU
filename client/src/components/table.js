@@ -1,5 +1,6 @@
 import React,{useRef} from 'react'
 import SearchIcon from '@material-ui/icons/Search';
+
 import { logMissingFieldErrors } from '@apollo/client/core/ObservableQuery';
 import TextBox from './textbox'
 import Select from '../components/select'
@@ -56,6 +57,7 @@ export default function ({
                     )
                 }
                 <div className="group-control">
+                    
                     {controlAddOn && controlAddOn()}
                     {
                         isSort && (

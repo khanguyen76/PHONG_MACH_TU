@@ -11,6 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 // Components
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
+import Notify from "../../components/notify"
 // Vendors
 import moment from 'moment';
 import Swal from 'sweetalert2';
