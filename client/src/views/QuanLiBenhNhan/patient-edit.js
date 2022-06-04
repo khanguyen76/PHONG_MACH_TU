@@ -15,9 +15,6 @@ export default function ({
     patientId,
     onAdd
 }) {
-    const [params, setParams] = useState({
-        _id: patientId,
-      })
     const { loading, error, data } = useQuery(getItemById, {
         variables: patientId,
         fetchPolicy: 'network-only'
@@ -25,8 +22,8 @@ export default function ({
     const [updatePatientById] = useMutation(editItemById)
 
     useEffect(() => { 
-        console.log("useEffect load id="+patientId+" name="+data?.BENH_NHAN?.hoTen) 
-    });
+        console.log("useEffect load id=",patientId) 
+    },[patientId]);
 
     const year = (new Date()).getFullYear();
     const years = Array.from(new Array(100),(val, index) => year - index);
