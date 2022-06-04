@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from "react";
 import Grid from '@material-ui/core/Grid';
 import { useQuery } from "@apollo/client";
@@ -10,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
 import Notify from "../../components/notify"
+import AddorChangeItem from "./ThemSuaThuoc"
 // Vendors
 import moment from 'moment';
 import Swal from 'sweetalert2';
@@ -55,6 +55,7 @@ export default function () {
       }
     })
   }
+
   // if (loading) return <div className="loading">Loading...</div>;
   return <div className="data">
     <Breadcrumb
@@ -71,7 +72,7 @@ export default function () {
     />
     <div className="container">
       <div style={{ textAlign: "right" }}>
-        <button className="btn btn--primary mb-2">Thêm thuốc</button>
+        <button className="btn btn--primary mb-2" onClick={AddorChangeItem()} >Thêm thuốc </button>
       </div>
       <Table
         isLoading={loading}

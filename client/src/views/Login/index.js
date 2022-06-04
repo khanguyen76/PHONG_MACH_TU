@@ -13,7 +13,6 @@ function App() {
       .then((data) => setData(data.message));
   }, []);
 
-
   return (
     <div>
       <div className="no-auth-form login-form ml-2 mr-2">
@@ -57,6 +56,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
