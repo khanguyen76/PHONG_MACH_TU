@@ -6,20 +6,32 @@
   border-radius: 15px;
 }
 
-
 .forgot-pwd-form {
   margin: 10% 34%;
 }
-
+//fix
 .login-form {
-  margin: 10% 39%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+  font-weight: 600;
+  .btn-login {
+    width: 320px;
+  }
+  .login-option {
+    font-size: small;
+  }
+  #usename, #password {
+    border-radius: 25px;
+    background: $second-color-1;
+    width: 330px;
+    height: 40px;
+  }
 }
-
 .change-pwd-form {
   margin: 10% 37%;
 }
-
-
 
 .s-line {
   display: flex;
@@ -32,13 +44,17 @@ input[type="password"] {
   height: 25px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
-
+//fix
 .input-container {
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: 10px;
   margin-bottom: 10px;
+  label {
+    color: $black-color-1;
+    font-size: larger;
+  }
 }
 
 .input-label {
@@ -76,9 +92,14 @@ input[type="password"] {
 .guide-line {
 	display: flex;
 	justify-content: center;
+  font-size: x-small;
 }
-
 
 .guide-link {
 	text-decoration: none;
+}
+
+.forget-password {
+  text-decoration: none;
+  color: $black-color-1;
 }
