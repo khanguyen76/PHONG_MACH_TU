@@ -12,10 +12,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
 import Notify from "../../components/notify"
+import LapPhieuKham from "./LapPhieuKham"
 // Vendors
 import moment from 'moment';
 import Swal from 'sweetalert2';
 export default function () {
+  const [openModal, setOpenModal] = useState(false)
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4
@@ -73,8 +75,9 @@ export default function () {
       ]}
     />
     <div className="container">
+      <LapPhieuKham openModal={openModal} onClose={()=>setOpenModal(false)} />
       <div style={{ textAlign: "right" }}>
-        <button className="btn btn--primary mb-2">Lập phiếu khám</button>
+        <button className="btn btn--primary mb-2" onClick={()=>setOpenModal(true)}>Lập phiếu khám</button>
       </div>
       <Table
         isLoading={loading}

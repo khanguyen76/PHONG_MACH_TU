@@ -7,7 +7,7 @@ const THUOC = require('../models/THUOC');
 const TAI_KHOAN = require('../models/TAI_KHOAN');
 const QUY_DINH = require('../models/QUY_DINH');
 const { sendMail } = require('../ultils/mailer');
-const { createToken, verifyToken } = require('../ultils/jwt');
+const { createToken, verifyToken, decodeToken } = require('../ultils/jwt');
 const { encode, compare } = require('../ultils/bcrypt');
 // Vendors
 var moment = require('moment');
@@ -32,11 +32,13 @@ const resolvers = {
         BENH_NHAN: async (_,{_id},headers) => {
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
-                let res = await BENH_NHAN.findOne({ _id, is_deleted: false })
-                if (!res) {
+                console.log(_id);
+                let doc = await BENH_NHAN.findOne({ _id, is_deleted: false })
+                console.log(doc);
+                if (!doc) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return doc
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -178,6 +180,17 @@ const resolvers = {
                 let doc = await TAI_KHOAN
                 .find({ is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
                 return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
+            }
+            else {
+                throw new AuthenticationError("Access is denied")
+            }
+        },
+        TAI_KHOAN: async (_,{token}) => {
+            let args = await decodeToken(token)
+            if (args) {
+                let doc = await TAI_KHOAN.findOne({ email: args.email, is_deleted: false })
+                if(doc)
+                return doc
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -529,11 +542,11 @@ const resolvers = {
         DANG_NHAP: async (_, args) => {
             let doc = await TAI_KHOAN.findOne({ email: args.email, is_deleted: false })
             if (!doc) {
-                throw new UserInputError("Địa chỉ email hoặc mật khẩu không đúng")
+                throw new Error("Địa chỉ email hoặc mật khẩu không đúng")
             }
             let valid = await compare(args.mat_khau, doc.mat_khau);
             if (!valid) {
-                throw new UserInputError("Địa chỉ email hoặc mật khẩu không đúng")
+                throw new Error("Địa chỉ email hoặc mật khẩu không đúng")
             }
             let accessToken = createToken({ payload: args, settings: { expiresIn: '1h' } })
             return { accessToken, doc }

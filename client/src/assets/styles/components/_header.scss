@@ -21,6 +21,14 @@
             border:1px solid $primary-color-1;
             border-radius: 50%;
             background-color: $gray-color-1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            span{
+                font-weight: 500;
+                color: $primary-color-1;
+                font-size: 1.25rem;
+            }
         }
         &__name{
             margin: 0 8px;

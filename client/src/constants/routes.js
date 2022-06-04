@@ -6,7 +6,7 @@ import QuanLiThuoc from '../views/QuanLiThuoc';
 import QuanLiTaiKhoan from '../views/QuanLiTaiKhoan';
 import CaiDat from '../views/CaiDat';
 import NotFound404 from '../views/NotFound404';
-import Login from '../views/Login';
+import DangNhap from '../views/DangNhap';
 import ForgotPassword from '../views/ForgotPassword';
 import ChangePassword from '../views/ChangePassword';
 
@@ -20,7 +20,7 @@ export const routeMain = [
 ]
 
 export const routeAuth = [
-    { path: '/auth/login', main: (props) => <Login {...props} /> },
-    { path: '/auth/forgot-password', main: (props) => <ForgotPassword {...props} /> },
-    { path: '/auth/change-password', main: (props) => <ChangePassword {...props} /> },
+    { path: '/auth/dang-nhap', main: (props) => <DangNhap {...props} /> },
+    { path: '/auth/quen-mat-khau', main: (props) => <ForgotPassword {...props} /> },
+    { path: '/auth/doi-mat-khau', main: (props) => <ChangePassword {...props} /> },
 ]
