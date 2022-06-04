@@ -1,34 +1,41 @@
+
 import React, { useState, useEffect, useMemo } from "react";
 import Grid from '@material-ui/core/Grid';
 import { useQuery } from "@apollo/client";
-import { getAll } from "../../graphql-queries/BENH_NHAN";
+import { getPage } from "../../graphql-queries/PHIEU_KHAM";
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
-import PatrientDetail from './components/PatrientDetail';
 import CalendarIcon from '@material-ui/icons/CalendarToday';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import PrintIcon from '@material-ui/icons/Print';
-import CreateIcon from '@material-ui/icons/Create';
-import DeleteIcon from '@material-ui/icons/Delete';
 
-function App() {
-  const [patrientSelected, SetPatrientSelected] = useState()
-  const { loading, error, data } = useQuery(getAll);
+export default function () {
+  console.log("re-render");
+  const [params,setParams] = useState({
+    page: 1,
+    pageSize: 4
+  })
+  const { loading, error, data } = useQuery(getPage, {
+    variables: params,  
+    fetchPolicy:'network-only'
+  });
+
+  const handleChangePage = (pageNumber) => {
+    setParams({...params,page:pageNumber})
+  }
 
   // if (loading) return <div className="loading">Loading...</div>;
   return <div className="data">
     <Breadcrumb />
     <div className="container">
-    
-      <div style={{textAlign:"right"}}>
-       <button className="btn btn--primary mb-2 btn--hover">Lập phiếu khám</button>
+      <div style={{ textAlign: "right" }}>
+        <button className="btn btn--primary mb-2">Lập phiếu khám</button>
       </div>
       <Table
+        isLoading={loading}
         isSort={true}
         columns={[
           {
             label: "STT",
-            accessor: (row, key) => key + 1,
+            accessor: (row, key) => (key + 1) + (params.page > 1 ? params.pageSize : 0),
             textAlign: "center",
             props: {
               width: 80
@@ -36,42 +43,42 @@ function App() {
           },
           {
             label: "Họ tên",
-            accessor: "ho_ten",
             isSearchable: true,
             props: {
               width: 300
-            }
+            },
+            accessor: row => row.benh_nhan.ho_ten
           },
           {
             label: "Giới tính",
-            accessor: "gioi_tinh",
             textAlign: "center",
             props: {
               width: 150
-            }
+            },
+            accessor: row => row.benh_nhan.gioi_tinh
           },
           {
             label: "Năm sinh",
-            accessor: "nam_sinh",
             textAlign: "center",
             isSearchable: true,
             props: {
               width: 150
-            }
+            },
+            accessor: row => row.benh_nhan.nam_sinh
           },
           {
             label: "Địa chỉ",
-            accessor: "dia_chi",
-            isSearchable: true
+            isSearchable: true,
+            accessor: row => row.benh_nhan.dia_chi
           },
           {
             label: "",
             textAlign: "right",
             accessor: () => (
               <div className="group-button">
-                <button ><PrintIcon  style={{color:"#5AB88A", background:"white"}}/></button>
-                <button> <CreateIcon  style={{color:"#B99D0C", background:"white"}}/> </button>
-                <button> <DeleteIcon  style={{color:"#BF2A2A", background:"white"}}/> </button>
+                <button>In</button>
+                <button>Sửa</button>
+                <button>Xoá</button>
               </div>
             ),
             props: {
@@ -79,7 +86,7 @@ function App() {
             }
           }
         ]}
-        data={data?.DS_BENH_NHAN.doc}
+        data={data?.DS_PHIEU_KHAM.doc}
         controlAddOn={() => (
           <div className="date-picker"
             style={{
@@ -91,14 +98,15 @@ function App() {
           >
             <CalendarIcon style={{ marginRight: 10, fontSize: 14 }} />
             <span style={{ fontWeight: 500 }}>Thứ ba, 13/10/2022</span>
-            <ExpandMoreIcon className="user-box__arrow" fontSize="small"/>
-
           </div>
         )}
-        pagination={true}
+        pagination={{
+          currentPage: params.page,
+          totalPage: data?.DS_PHIEU_KHAM.pages,
+          totalRecord: data?.DS_PHIEU_KHAM.total,
+        }}
+        onPageChange={handleChangePage}
       />
     </div>
   </div>
 }
-
-export default App;

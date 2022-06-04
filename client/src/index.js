@@ -14,9 +14,7 @@ const client = new ApolloClient({
 
 
 root.render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
-      <Routers />
-    </ApolloProvider>
-  </React.StrictMode>
+  <ApolloProvider client={client}>
+    <Routers />
+  </ApolloProvider>
 );

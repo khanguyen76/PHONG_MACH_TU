@@ -9,7 +9,7 @@ import { routeAuth } from '../../constants/routes';
 
 export default function MainLayout(props) {
     return (
-        <div className="layout">
+        <div>
             <Switch>
                 {routeAuth.map((route, index) => {
                     return <Route key={index} path={route.path} exact component={props => route.main(props)} />

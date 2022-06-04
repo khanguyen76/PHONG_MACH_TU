@@ -1,13 +1,22 @@
 import React from 'react'
-
-export default function () {
+import { Link } from "react-router-dom";
+export default function ({
+    titlePage,
+    crumbs
+}) {
     return (
         <div className="breadcrumb">
             <div className="container">
-                <h1>Khám bệnh</h1>
+                <h1>{titlePage}</h1>
                 <ul>
-                    <li><b>Trang chủ</b></li>
-                    <li>Khám bệnh</li>
+                    {
+                        crumbs?.map((item,key) => {
+                            if(key == crumbs.length -1) 
+                            return <li>{item.label}</li>
+                            else
+                            return <Link to={item.path}><li>{item.label}</li></Link>
+                        })
+                    }
                 </ul>
             </div>
         </div>
