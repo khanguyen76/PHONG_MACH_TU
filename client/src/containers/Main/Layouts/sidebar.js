@@ -65,7 +65,6 @@ export default function () {
                         <div className="icon">
                             <i className="fas fa-cog"></i>
                         </div>
-
                         <label>Cài đặt</label>
                     </NavLink>
                 </li>
