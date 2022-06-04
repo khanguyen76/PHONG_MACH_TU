@@ -1,6 +1,8 @@
 import React from 'react'
 import SearchIcon from '@material-ui/icons/Search';
 import { logMissingFieldErrors } from '@apollo/client/core/ObservableQuery';
+import TextBox from './textbox'
+import Select from '../components/select'
 
 export default function ({
     className='',
@@ -10,26 +12,22 @@ export default function ({
     controlAddOn,
     pagination
 }) {
+    const handleChange = (value) => {
+        console.log("handleChange value="+value.target.value)
+    }
+
+    const handleSelectChange = (value) => {
+        console.log("handleSelectChange value="+value.target.value)
+    }
+
     return (
         <div className={`table ${className}`}>
             <div className="table__top">
                 {
                     columns.filter(i => i.isSearchable)?.length > 0 && (
                         <div className="search-box">
-                            <select name="" id="">
-                                {
-                                    columns.filter(i => i.isSearchable).map((col,key) => {
-                                        return (
-                                            <option
-                                                key={key}
-                                                value={typeof col.accessor == "function" ? col.isSearchable : col.accessor}
-                                            >
-                                                {col.label}
-                                            </option>)
-                                    })
-                                }
-                            </select>
-                            <input type="text" />
+                            <Select options={columns.filter(i => i.isSearchable).map(i => i.label)} onChange={handleSelectChange} />
+                            <TextBox onChangeValue={handleChange} />
                             <SearchIcon className="search-box__icon" />
                         </div>
                     )
@@ -39,12 +37,7 @@ export default function ({
                     {
                         isSort && (
                             <div className="sort-box">
-                                <select name="" id="">
-                                    <option >Mới nhất</option>
-                                    <option >Cũ nhất</option>
-                                    <option >Tên A-Z</option>
-                                    <option >Tên Z-A</option>
-                                </select>
+                                <Select options={["Mới nhất", "Cũ nhất", "Từ A-Z", "Từ Z-A"]} onChange={handleSelectChange} />
                             </div>
                         )
                     }
