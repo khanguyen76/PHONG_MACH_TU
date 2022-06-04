@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Dashboard from '../views/Dashboard';
 import QuanLiPhieuKham from '../views/QuanLiPhieuKham';
 import QuanLiBenhNhan from '../views/QuanLiBenhNhan';
 import NotFound404 from '../views/NotFound404';
