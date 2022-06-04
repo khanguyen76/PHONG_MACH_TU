@@ -19,6 +19,6 @@ export const routeMain = [
 
 export const routeAuth = [
     { path: '/auth/login', main: (props) => <Login {...props} /> },
-    { path: '/auth/forgotPassword', main: (props) => <ForgotPassword {...props} /> },
-    { path: '/auth/changePassword', main: (props) => <ChangePassword {...props} /> },
+    { path: '/auth/forgot-password', main: (props) => <ForgotPassword {...props} /> },
+    { path: '/auth/change-password', main: (props) => <ChangePassword {...props} /> },
 ]
