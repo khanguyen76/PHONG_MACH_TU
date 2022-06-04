@@ -1,8 +1,8 @@
 import React from 'react'
-import { BrowserRouter, Route, Link } from "react-router-dom";
-
+import { BrowserRouter as Router , Route, Link } from "react-router-dom";
 export default function () {
     return (
+        <Route>
         <div className="sidebar">
             <div className="logo">
                 <img src="/images/white_logo.png" alt="" />
@@ -70,5 +70,6 @@ export default function () {
                 </li>
             </ul>
         </div>
+        </Route>
     )
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import SearchIcon from '@material-ui/icons/Search';
+
 import { logMissingFieldErrors } from '@apollo/client/core/ObservableQuery';
 
 export default function ({
@@ -16,7 +17,7 @@ export default function ({
                 {
                     columns.filter(i => i.isSearchable)?.length > 0 && (
                         <div className="search-box">
-                            <select name="" id="">
+                            <select name="" id="" >
                                 {
                                     columns.filter(i => i.isSearchable).map((col,key) => {
                                         return (
@@ -29,12 +30,13 @@ export default function ({
                                     })
                                 }
                             </select>
-                            <input type="text" />
+                            <input type="text" placeholder='gõ vào đây...'/>
                             <SearchIcon className="search-box__icon" />
                         </div>
                     )
                 }
                 <div className="group-control">
+                    
                     {controlAddOn && controlAddOn()}
                     {
                         isSort && (

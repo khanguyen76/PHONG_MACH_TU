@@ -6,7 +6,7 @@ export default function () {
             <div className="container">
                 <h1>Khám bệnh</h1>
                 <ul>
-                    <li>Trang chủ</li>
+                    <li><b>Trang chủ</b></li>
                     <li>Khám bệnh</li>
                 </ul>
             </div>
