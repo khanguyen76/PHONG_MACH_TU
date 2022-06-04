@@ -50,7 +50,7 @@ function App() {
             type="text"
             name="email"
             // autoComplete='off'
-            ref={register({ required:true })}
+            {...register('email',{ required:true })}
           />
         </div>
 
@@ -61,7 +61,7 @@ function App() {
             name="password"
             className="pwd-field"
             autoComplete='off'
-            ref={register({ required:true })}
+            {...register('password',{ required:true })}
           />
         </div>
 

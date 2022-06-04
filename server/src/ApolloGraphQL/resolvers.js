@@ -32,11 +32,13 @@ const resolvers = {
         BENH_NHAN: async (_,{_id},headers) => {
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
-                let res = await BENH_NHAN.findOne({ _id, is_deleted: false })
-                if (!res) {
+                console.log(_id);
+                let doc = await BENH_NHAN.findOne({ _id, is_deleted: false })
+                console.log(doc);
+                if (!doc) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return doc
             }
             else {
                 throw new AuthenticationError("Access is denied")
