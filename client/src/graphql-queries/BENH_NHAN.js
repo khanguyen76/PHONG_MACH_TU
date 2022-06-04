@@ -1,16 +1,16 @@
 import { gql } from '@apollo/client';
 
 export const getPage = gql`
-    query ($page: Int, $pageSize: Int){
-        DS_BENH_NHAN(page: $page, pageSize: $pageSize) {
+    query ($search: TIM_BENH_NHAN, $pageSize: Int, $page: Int) {
+        DS_BENH_NHAN(search: $search, pageSize: $pageSize, page: $page) {
             pages
             total
             doc {
-            _id
-            ho_ten
-            nam_sinh
-            gioi_tinh
-            dia_chi
+                _id
+                ho_ten
+                nam_sinh
+                gioi_tinh
+                dia_chi
             }
         }
     }

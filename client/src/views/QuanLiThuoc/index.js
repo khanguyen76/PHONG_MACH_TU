@@ -2,32 +2,43 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Grid from '@material-ui/core/Grid';
 import { useQuery } from "@apollo/client";
-import { getPage } from "../../graphql-queries/PHIEU_KHAM";
+import { getPage } from "../../graphql-queries/THUOC";
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
 import CalendarIcon from '@material-ui/icons/CalendarToday';
 
 export default function () {
   console.log("re-render");
-  const [params,setParams] = useState({
+  const [params, setParams] = useState({
     page: 1,
     pageSize: 4
   })
   const { loading, error, data } = useQuery(getPage, {
-    variables: params,  
-    fetchPolicy:'network-only'
+    variables: params,
+    fetchPolicy: 'network-only'
   });
 
   const handleChangePage = (pageNumber) => {
-    setParams({...params,page:pageNumber})
+    setParams({ ...params, page: pageNumber })
   }
 
   // if (loading) return <div className="loading">Loading...</div>;
   return <div className="data">
-    <Breadcrumb />
+    <Breadcrumb
+      titlePage="Thuốc"
+      crumbs={[
+        {
+          label: "Trang chủ",
+          path: '/'
+        },
+        {
+          label: "Thuốc"
+        }
+      ]}
+    />
     <div className="container">
       <div style={{ textAlign: "right" }}>
-        <button className="btn btn--primary mb-2">Lập phiếu khám</button>
+        <button className="btn btn--primary mb-2">Thêm thuốc</button>
       </div>
       <Table
         isLoading={loading}
@@ -42,34 +53,32 @@ export default function () {
             }
           },
           {
-            label: "Họ tên",
+            label: "Tên thuốc",
             isSearchable: true,
             props: {
               width: 300
             },
-            accessor: row => row.benh_nhan.ho_ten
+            accessor: row => row.ten_thuoc
           },
           {
-            label: "Giới tính",
+            label: "Đơn vị",
             textAlign: "center",
             props: {
               width: 150
             },
-            accessor: row => row.benh_nhan.gioi_tinh
+            accessor: row => row.don_vi.ten_don_vi
           },
           {
-            label: "Năm sinh",
+            label: "Đơn giá",
             textAlign: "center",
-            isSearchable: true,
             props: {
               width: 150
             },
-            accessor: row => row.benh_nhan.nam_sinh
+            accessor: row => row.don_gia
           },
           {
-            label: "Địa chỉ",
-            isSearchable: true,
-            accessor: row => row.benh_nhan.dia_chi
+            label: "Cách dùng",
+            accessor: row => row.cach_dung.mo_ta_cach_dung
           },
           {
             label: "",
@@ -86,24 +95,11 @@ export default function () {
             }
           }
         ]}
-        data={data?.DS_PHIEU_KHAM.doc}
-        controlAddOn={() => (
-          <div className="date-picker"
-            style={{
-              marginRight: 40,
-              display: "flex",
-              alignItems: "center",
-              cursor: "pointer"
-            }}
-          >
-            <CalendarIcon style={{ marginRight: 10, fontSize: 14 }} />
-            <span style={{ fontWeight: 500 }}>Thứ ba, 13/10/2022</span>
-          </div>
-        )}
+        data={data?.DS_THUOC.doc}
         pagination={{
           currentPage: params.page,
-          totalPage: data?.DS_PHIEU_KHAM.pages,
-          totalRecord: data?.DS_PHIEU_KHAM.total,
+          totalPage: data?.DS_THUOC.pages,
+          totalRecord: data?.DS_THUOC.total,
         }}
         onPageChange={handleChangePage}
       />
