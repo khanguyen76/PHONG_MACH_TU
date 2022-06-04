@@ -1,3 +1,5 @@
+import { logMissingFieldErrors } from "@apollo/client/core/ObservableQuery";
+
 export const saveProfile = async ({ account, dispatch }) => {
     dispatch({
         type: "setAuth",
@@ -6,7 +8,7 @@ export const saveProfile = async ({ account, dispatch }) => {
             isLogin: true
         }
     })
-    localStorage.addItem('access_token');
+    localStorage.setItem('access_token',account.accessToken);
 }
 export const updateProfile = async ({ data, state, dispatch }) => {
     const { auth } = state;

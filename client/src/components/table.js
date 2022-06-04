@@ -15,6 +15,7 @@ export default function ({
     pagination,
     onPageChange,
     isLoading,
+    style
 }) {
     let timeoutInput;
     const selectRef = useRef(null)
@@ -34,7 +35,7 @@ export default function ({
     }
 
     return (
-        <div className={`table ${className}`}>
+        <div className={`table ${className}`}  style={style}>
             <div className="table__top">
                 {
                     columns.filter(i => i.isSearchable)?.length > 0 && (

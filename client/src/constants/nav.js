@@ -15,6 +15,11 @@ export default [
         path: '/quan-li-thuoc'
     },
     {
+        icon: 'fas fa-chart-bar',
+        title: 'Báo cáo',
+        path: '/bao-cao-thong-ke'
+    },
+    {
         icon: 'fas fa-user-friends',
         title: 'Tài khoản',
         path: '/quan-li-tai-khoan'

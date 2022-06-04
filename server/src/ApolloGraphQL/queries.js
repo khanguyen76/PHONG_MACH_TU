@@ -21,6 +21,7 @@ const mutation = gql`
         THUOC (_id: ID!): THUOC
 
         DS_TAI_KHOAN (page: Int,pageSize: Int): DS_TAI_KHOAN_RESPONSE
+        TAI_KHOAN (token: String!): TAI_KHOAN_RESPONSE
     }
 `
 module.exports = mutation

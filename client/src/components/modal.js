@@ -3,7 +3,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { colors } from '@material-ui/core';
-
+import CloseIcon from '@material-ui/icons/Close';
 const modal = ({
     children,
     open,
@@ -22,8 +22,8 @@ const modal = ({
                 timeout: 500,
             }}
         >
-            <div class="modal-dialog">
-                <div class="modal-content">
+            <div className="modal-dialog">
+                <div className="modal-content">
                     {children}
                 </div>
             </div>
@@ -36,7 +36,7 @@ modal.body = ({
     style
 }) => {
     return (
-        <div class="modal-body">
+        <div className="modal-body">
             {children}
         </div>
     )
@@ -48,14 +48,11 @@ modal.header = ({
     style
 }) => {
     return (
-        <div class="modal-header">
-            <div style={{ textAlign: "right" }}>
-                <button onClick={handleClose} type="button" class="btn btn-default close-btn" aria-label="Close">&times;</button>
-            </div>
-
+        <div className="modal-header">
             <div className="left">
                 {children}
             </div>
+            <button onClick={handleClose} type="button" className="btn btn-default close-btn" aria-label="Close"><CloseIcon/></button>
         </div >
     )
 }
@@ -65,7 +62,7 @@ modal.footer = ({
     style
 }) => {
     return (
-        <div class="modal-footer">
+        <div className="modal-footer">
             {children}
         </div>
     )

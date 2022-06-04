@@ -12,9 +12,9 @@ export default function ({
     }
 
     return (
-        <div class="container">
-            <div class="tab" role="tabpanel">
-                <ul class="nav nav-tabs" role="tablist">
+        <div className="container">
+            <div className="tab" role="tabpanel">
+                <ul className="nav nav-tabs" role="tablist">
                     {tabData.map((data) =>
                         <li onClick={() => onSelect(data.key)} className={tabActiveIndex == data.key ? "active" : ""}><a href={data.href} data-toggle="tab">{data.text}</a></li>
                     )}

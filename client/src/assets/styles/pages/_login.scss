@@ -1,7 +1,7 @@
 .no-auth-form {
   background-color: white;
   padding: 2rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 
   border-radius: 15px;
 }
@@ -15,18 +15,8 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
-  font-weight: 600;
   .btn-login {
     width: 320px;
-  }
-  .login-option {
-    font-size: small;
-  }
-  #usename, #password {
-    border-radius: 25px;
-    background: $second-color-1;
-    width: 330px;
-    height: 40px;
   }
 }
 .change-pwd-form {
@@ -36,14 +26,17 @@
 .s-line {
   display: flex;
   justify-content: space-between;
+  font-size: 1rem;
+  .logo{
+    height: 60px;
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
 }
 
-
-input[type="text"],
-input[type="password"] {
-  height: 25px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-}
 //fix
 .input-container {
   display: flex;
@@ -53,7 +46,18 @@ input[type="password"] {
   margin-bottom: 10px;
   label {
     color: $black-color-1;
-    font-size: larger;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  input{
+    height: 25px;
+    padding: 8px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
+    border-radius: 25px;
+    background: $second-color-1;
+    width: 330px;
+    height: 40px;
   }
 }
 
