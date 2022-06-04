@@ -2,14 +2,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Grid from '@material-ui/core/Grid';
 import { useQuery } from "@apollo/client";
-import { getPage } from "../../graphql-queries/PHIEU_KHAM";
+import { getPage } from "../../graphql-queries/BENH_NHAN";
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
-import PatrientDetail from './components/PatrientDetail';
 import CalendarIcon from '@material-ui/icons/CalendarToday';
 
-function App() {
-  const [patrientSelected, SetPatrientSelected] = useState()
+export default function () {
   const [params,setParams] = useState({
     page: 1,
     pageSize: 4
@@ -25,10 +23,21 @@ function App() {
 
   // if (loading) return <div className="loading">Loading...</div>;
   return <div className="data">
-    <Breadcrumb />
+    <Breadcrumb 
+      titlePage="Bệnh nhân"
+      crumbs={[
+        {
+          label:"Trang chủ",
+          path:'/'
+        },
+        {
+          label:"bệnh nhân"
+        }
+      ]}
+    />
     <div className="container">
       <div style={{ textAlign: "right" }}>
-        <button className="btn btn--primary mb-2">Lập phiếu khám</button>
+        <button className="btn btn--primary mb-2">Thêm bệnh nhân</button>
       </div>
       <Table
         isLoading={loading}
@@ -36,7 +45,7 @@ function App() {
         columns={[
           {
             label: "STT",
-            accessor: (row, key) => key + 1,
+            accessor: (row, key) => (key + 1) + (params.page > 1 ? params.pageSize : 0),
             textAlign: "center",
             props: {
               width: 80
@@ -44,33 +53,33 @@ function App() {
           },
           {
             label: "Họ tên",
+            accessor:'ho_ten',
             isSearchable: true,
             props: {
               width: 300
-            },
-            accessor: row => row.benh_nhan.ho_ten
+            }
           },
           {
             label: "Giới tính",
+            accessor:'gioi_tinh',
             textAlign: "center",
             props: {
               width: 150
-            },
-            accessor: row => row.benh_nhan.gioi_tinh
+            }
           },
           {
             label: "Năm sinh",
+            accessor:'nam_sinh',
             textAlign: "center",
             isSearchable: true,
             props: {
               width: 150
-            },
-            accessor: row => row.benh_nhan.nam_sinh
+            }
           },
           {
             label: "Địa chỉ",
+            accessor:'dia_chi',
             isSearchable: true,
-            accessor: row => row.benh_nhan.dia_chi
           },
           {
             label: "",
@@ -87,7 +96,7 @@ function App() {
             }
           }
         ]}
-        data={data?.DS_PHIEU_KHAM.doc}
+        data={data?.DS_BENH_NHAN.doc}
         controlAddOn={() => (
           <div className="date-picker"
             style={{
@@ -103,13 +112,11 @@ function App() {
         )}
         pagination={{
           currentPage: params.page,
-          totalPage: data?.DS_PHIEU_KHAM.pages,
-          totalRecord: data?.DS_PHIEU_KHAM.total,
+          totalPage: data?.DS_BENH_NHAN.pages,
+          totalRecord: data?.DS_BENH_NHAN.total,
         }}
         onPageChange={handleChangePage}
       />
     </div>
   </div>
 }
-
-export default App;

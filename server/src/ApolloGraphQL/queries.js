@@ -2,10 +2,10 @@ const { gql } = require('apollo-server-express')
 
 const mutation = gql`
     type Query {
-        DS_BENH_NHAN (page: Int,size: Int): DS_BENH_NHAN_RESPONSE
+        DS_BENH_NHAN (page: Int,pageSize: Int): DS_BENH_NHAN_RESPONSE
         BENH_NHAN (_id: ID!): BENH_NHAN
 
-        DS_PHIEU_KHAM (search: TIM_PHIEU_KHAM, page: Int,size: Int): DS_PHIEU_KHAM_RESPONSE
+        DS_PHIEU_KHAM (search: TIM_PHIEU_KHAM, page: Int,pageSize: Int): DS_PHIEU_KHAM_RESPONSE
         PHIEU_KHAM (_id: ID!): PHIEU_KHAM
 
         DS_LOAI_BENH (page: Int,size: Int): DS_LOAI_BENH_RESPONSE

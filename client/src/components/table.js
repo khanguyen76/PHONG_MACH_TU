@@ -1,15 +1,32 @@
 import React from 'react'
 import SearchIcon from '@material-ui/icons/Search';
 import { logMissingFieldErrors } from '@apollo/client/core/ObservableQuery';
-
 export default function ({
     className='',
     columns,
     data = [],
     isSort,
     controlAddOn,
-    pagination
+    pagination,
+    onPageChange,
+    isLoading,
 }) {
+
+    const renderPagination = (totalPage) =>  {
+        let arrayPage = []
+        let pageActive = pagination.currentPage || 1
+        for (let idx = 1; idx <= totalPage; idx++) {
+            arrayPage.push(
+                <li 
+                key={idx} 
+                className={`page-item ${idx==pageActive?'active':''}`}
+                onClick={()=>onPageChange(idx)}
+                >{idx}</li>
+            )
+        }
+        return arrayPage
+    }
+
     return (
         <div className={`table ${className}`}>
             <div className="table__top">
@@ -70,7 +87,7 @@ export default function ({
                 </thead>
                 <tbody>
                     {
-                        data && data.length > 0 && data.map((row, keyRow) => (
+                        !isLoading && data && data.length > 0 && data.map((row, keyRow) => (
                             <tr key={keyRow}>
                                 {
                                     columns.map((col, keyCol) => (
@@ -88,14 +105,15 @@ export default function ({
                             </tr>
                         ))
                     }
+                    {
+                        isLoading && <tr style={{textAlign:'center'}}><td colSpan={columns.length}>Loading...</td></tr>
+                    }
                 </tbody>
             </table>
-            {pagination && (
+            {pagination?.totalPage > 1 && (
                 <div className="table__bottom">
                     <ul className="pagination">
-                        <li className="page-item active">1</li>
-                        <li className="page-item">2</li>
-                        <li className="page-item">3</li>
+                        {renderPagination(pagination.totalPage)}
                     </ul>
                 </div>
             )}

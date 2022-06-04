@@ -15,12 +15,12 @@ const disableVerify = true
 const resolvers = {
     // QUERY
     Query: {
-        DS_BENH_NHAN: async (_,{page,size},headers) => {
+        DS_BENH_NHAN: async (_,{page,pageSize},headers) => {
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let count = await BENH_NHAN.countDocuments({ is_deleted: false })
-                let doc = await BENH_NHAN.find({ is_deleted: false },{},{skip:(page-1)*size,limit:size})
-                return { success: true, code: 200, message: "Successful", total: count, pages: size ? Math.ceil(count/size):null, doc }
+                let doc = await BENH_NHAN.find({ is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -39,15 +39,16 @@ const resolvers = {
                 throw new AuthenticationError("Access is denied")
             }
         },
-        DS_PHIEU_KHAM: async (_,{search,page,size},headers) => {
+        DS_PHIEU_KHAM: async (_,{search,page,pageSize},headers) => {
             let isValid = disableVerify || await verifyToken(headers['access-token'])
+            console.log(search);
             if (isValid) {
-                if(search.ngay_kham){
+                if(search?.ngay_kham){
                     search.ngay_kham = {$gte: search.ngay_kham,$lte: moment(search.ngay_kham).add(1,'days')}
                 }
                 let count = await PHIEU_KHAM.countDocuments({ ...search , is_deleted: false })
-                let doc = await PHIEU_KHAM.find({ ...search , is_deleted: false },{},{skip:(page-1)*size,limit:size})
-                return { success: true, code: 200, message: "Successful", total: count, pages: size ? Math.ceil(count/size):null, doc }
+                let doc = await PHIEU_KHAM.find({ ...search , is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
             }
             else {
                 throw new AuthenticationError("Access is denied")

@@ -1,72 +1,81 @@
 import React from 'react'
-import { BrowserRouter, Route, Link } from "react-router-dom";
-
+import { BrowserRouter, Route, NavLink, useLocation } from "react-router-dom";
+import nav from '../../../constants/nav';
 export default function () {
+    const location = useLocation()
+    console.log(location.pathname);
     return (
         <div className="sidebar">
             <div className="logo">
                 <img src="/images/white_logo.png" alt="" />
             </div>
             <ul className="menu">
-                <li className="menu__item active">
-                    <Link to="/#">
-                        <div className="icon">
-                            <i className="fas fa-file-medical-alt"></i>
-                        </div>
-                        <label>Khám bệnh</label>
-                    </Link>
-                </li>
-                <li className="menu__item">
-                    <Link to="/#">
+                {
+                    nav?.map((navItem, key) => (
+                        <li key={key} className={`menu__item`}>
+                            <NavLink
+                                to={navItem.path}
+                            >
+                                <div className="icon">
+                                    <i className={navItem.icon}></i>
+                                </div>
+                                <label>{navItem.title}</label>
+                            </NavLink>
+                        </li>
+                    ))
+                }
+
+                {/* <li className="menu__item">
+                    <NavLink to="/#">
                         <div className="icon">
                             <i className="fas fa-user-injured"></i>
                         </div>
                         <label>Bệnh nhân</label>
-                    </Link>
+                    </NavLink>
                 </li>
                 <li className="menu__item">
-                    <Link to="/#">
+                    <NavLink to="/#">
                         <div className="icon">
                             <i className="fas fa-pills"></i>
                         </div>
                         <label>Thuốc</label>
-                    </Link>
+                    </NavLink>
                 </li>
                 <li className="menu__item">
-                    <Link to="/#">
+                    <NavLink to="/#">
                         <div className="icon">
                             <i className="fas fa-chart-bar"></i>
                         </div>
                         <label>Báo cáo</label>
-                    </Link>
+                    </NavLink>
                 </li>
                 <li className="menu__item">
-                    <Link to="/#">
+                    <NavLink to="/#">
                         <div className="icon">
                             <i className="fas fa-user-friends"></i>
                         </div>
                         <label>Tài khoản</label>
-                    </Link>
-                </li>
+                    </NavLink>
+                </li> */}
             </ul>
             <ul className="menu">
                 <li className="menu__item">
-                    <Link to="/#">
+                    <NavLink to="/cai-dat">
                         <div className="icon">
                             <i className="fas fa-cog"></i>
                         </div>
 
                         <label>Cài đặt</label>
-                    </Link>
+                    </NavLink>
                 </li>
                 <li className="menu__item">
-                    <Link to="/#">
+                    <NavLink to="/dang-xuat">
                         <div className="icon">
                             <i className="fas fa-sign-out-alt"></i>
                         </div>
 
                         <label>Đăng xuất</label>
-                    </Link>
+                    </NavLink>
                 </li>
             </ul>
         </div>

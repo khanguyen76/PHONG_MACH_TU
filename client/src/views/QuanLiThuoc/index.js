@@ -5,11 +5,10 @@ import { useQuery } from "@apollo/client";
 import { getPage } from "../../graphql-queries/PHIEU_KHAM";
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
-import PatrientDetail from './components/PatrientDetail';
 import CalendarIcon from '@material-ui/icons/CalendarToday';
 
-function App() {
-  const [patrientSelected, SetPatrientSelected] = useState()
+export default function () {
+  console.log("re-render");
   const [params,setParams] = useState({
     page: 1,
     pageSize: 4
@@ -36,7 +35,7 @@ function App() {
         columns={[
           {
             label: "STT",
-            accessor: (row, key) => key + 1,
+            accessor: (row, key) => (key + 1) + (params.page > 1 ? params.pageSize : 0),
             textAlign: "center",
             props: {
               width: 80
@@ -111,5 +110,3 @@ function App() {
     </div>
   </div>
 }
-
-export default App;
