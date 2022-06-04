@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react"
-import Grid from '@material-ui/core/Grid'
 import { useQuery, useMutation } from "@apollo/client"
 import { getPage, deleteItemById } from "../../graphql-queries/BENH_NHAN"
 // Material UI
@@ -14,6 +13,7 @@ import moment from 'moment'
 import Swal from 'sweetalert2'
 export default function () {
   const [notify, setNotify] = useState()
+  
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4
