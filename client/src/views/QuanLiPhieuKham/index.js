@@ -132,7 +132,7 @@ export default function () {
             label: "",
             textAlign: "right",
             accessor: row => (
-              <div className="group-button">
+              <div className="group-button no-wrap">
                 <button className="btn btn__icon btn__outline btn__outline--primary mr-1"><PrintIcon /></button>
                 <button className="btn btn__icon btn__outline btn__outline--warning mr-1"><EditIcon /></button>
                 <button onClick={()=>handleDeleteItem(row.ngay_kham,row.benh_nhan.ho_ten)} className="btn btn__icon btn__outline btn__outline--danger mr-2"><DeleteIcon /></button>
