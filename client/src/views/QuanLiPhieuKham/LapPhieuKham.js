@@ -21,6 +21,9 @@ export default function ({
     });
 
     console.log(data);
+    const handleChangePage = (pageNumber) => {
+        setParams({ ...params, page: pageNumber })
+    }
 
     return (
         <Modal open={openModal}>
@@ -85,8 +88,8 @@ export default function ({
                         totalPage: data?.DS_BENH_NHAN.pages,
                         totalRecord: data?.DS_BENH_NHAN.total,
                     }}
-                    // onPageChange={handleChangePage}
-                    style={{border:'none'}}
+                    onPageChange={handleChangePage}
+                    style={{ border: 'none' }}
                 />
             </Modal.body>
         </Modal>
