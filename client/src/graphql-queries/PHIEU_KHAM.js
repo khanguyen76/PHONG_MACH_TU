@@ -74,4 +74,15 @@ export const addNew = gql`
             tong_tien
         }
     }
+ `
+
+// Xoá 1 phần tử với Id
+export const deleteItemById = gql`
+    mutation ($id: ID!) {
+        XOA_PHIEU_KHAM(_id: $id) {
+            code
+            success
+            message
+        }
+    }
 `
