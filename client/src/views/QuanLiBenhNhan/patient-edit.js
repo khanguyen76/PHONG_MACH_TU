@@ -125,7 +125,7 @@ export default function ({
                 </div>
             </Modal.body>
             <Modal.footer>
-                <button class="btn btn-default" onClick={handleClose}>Hủy bỏ</button>
+                <button className="btn btn-default" onClick={handleClose}>Hủy bỏ</button>
                 <button className="btn btn--primary mb-2" onClick={updatePatient}>Lưu thay đổi</button>
             </Modal.footer>
         </Modal>
