@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Grid from '@material-ui/core/Grid';
-import { useQuery, useMutation } from "@apollo/client";
-import { getPage, deleteItemById } from "../../graphql-queries/THUOC";
+import { useQuery,useLazyQuery, useMutation } from "@apollo/client";
+import { getPage, deleteItemById, getItemById } from "../../graphql-queries/THUOC";
 // Material UI
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -9,19 +9,23 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
 import Notify from "../../components/notify"
-
+import ThemThuoc from "./ThemThuoc";
+import CapNhatThuoc from "./CapNhatThuoc";
 // Vendors
 import moment from 'moment';
 import Swal from 'sweetalert2';
 export default function () {
   console.log("re-render");
   const [xoaThuoc] = useMutation(deleteItemById);
+  const [getDataItem] = useLazyQuery(getItemById);
   const [notify, setNotify] = useState()
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4
   })
-  const [openModal, setOpenModal] = useState(false)
+  const [openModalAdd, setOpenModalAdd] = useState(false)
+  const [openModalEdit, setOpenModalEdit] = useState(false)
+  const [dataItem, setDataItem] = useState()
   const { loading, error, data, refetch } = useQuery(getPage, {
     variables: params,
     fetchPolicy: 'network-only'
@@ -41,6 +45,15 @@ export default function () {
     console.log(filter);
     setParams({...params,search:filter})
     refetch({...params,search:filter})
+  }
+  const handleEditItem = async (id) => {
+    if(id){
+      let res = await getDataItem({
+        variables: {id}
+      })
+      setDataItem(res.data.THUOC)
+      setOpenModalEdit(true)
+    }
   }
   const handleDeleteItem = (id, name) => {
     Swal.fire({
@@ -95,10 +108,26 @@ export default function () {
         }
       ]}
     />
+    <ThemThuoc 
+      openModal={openModalAdd}
+      onClose={()=>setOpenModalAdd(false)}
+      onSubmited={()=>{
+        setOpenModalAdd(false)
+        refetch(params)
+      }}
+    />
+    <CapNhatThuoc 
+      data={dataItem}
+      openModal={openModalEdit}
+      onClose={()=>setOpenModalEdit(false)}
+      onSubmited={()=>{
+        setOpenModalEdit(false)
+        refetch(params)
+      }}
+    />
     <div className="container">
       <div style={{ textAlign: "right" }}>
-        <button className="btn btn--primary mb-2" >Thêm thuốc </button>
-
+        <button className="btn btn--primary mb-2" onClick={()=>setOpenModalAdd(true)}>Thêm thuốc </button>
       </div>
       <Table
         isLoading={loading}
@@ -146,7 +175,7 @@ export default function () {
             textAlign: "right",
             accessor: (row) => (
               <div className="group-button">
-                <button className="btn btn__icon btn__outline btn__outline--warning mr-1"><EditIcon /></button>
+                <button className="btn btn__icon btn__outline btn__outline--warning mr-1" onClick={()=>handleEditItem(row._id)}><EditIcon /></button>
                 <button onClick={()=>handleDeleteItem(row._id, row.ten_thuoc)} className="btn btn__icon btn__outline btn__outline--danger mr-2"><DeleteIcon /></button>
               </div>
             ),

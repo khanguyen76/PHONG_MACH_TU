@@ -19,9 +19,7 @@ export default function ({
     onClose,
     onSubmited
 }) {
-    const { register, handleSubmit, watch, reset } = useForm({
-        loai_benh: data?.loai_benh?._id
-    });
+    const { register, handleSubmit, watch, reset } = useForm();
     const { loading, data: dataField, error } = useQuery(getListField)
     const [updateData] = useMutation(updateItemById)
     const [prescription, setPrescription] = useState([])
