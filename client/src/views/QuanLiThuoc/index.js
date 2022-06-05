@@ -19,6 +19,7 @@ export default function () {
     page: 1,
     pageSize: 4
   })
+  const [openModal, setOpenModal] = useState(false)
   const { loading, error, data, refetch } = useQuery(getPage, {
     variables: params,
     fetchPolicy: 'network-only'
@@ -72,7 +73,8 @@ export default function () {
     />
     <div className="container">
       <div style={{ textAlign: "right" }}>
-        <button className="btn btn--primary mb-2" onClick={AddorChangeItem()} >Thêm thuốc </button>
+        <button className="btn btn--primary mb-2" >Thêm thuốc </button>
+
       </div>
       <Table
         isLoading={loading}

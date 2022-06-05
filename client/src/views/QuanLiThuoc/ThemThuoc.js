@@ -5,29 +5,19 @@ import Table from '../../components/table'
 // API
 import { useQuery } from "@apollo/client"
 import { getPage } from "../../graphql-queries/BENH_NHAN"
-
 export default function ({
     openModal,
     onClose
 }) {
-    const [params, setParams] = useState({
-        page: 1,
-        pageSize: 4
-    })
 
-    const { loading, error, data, refetch } = useQuery(getPage, {
-        variables: params,
-        // fetchPolicy: 'network-only'
-    });
-
-    console.log(data);
-    const handleChangePage = (pageNumber) => {
-        setParams({ ...params, page: pageNumber })
-    }
+    // const { loading, error, data, refetch } = useQuery(getPage, {
+    //     variables: params,
+    //     // fetchPolicy: 'network-only'
+    // });
     return (
         <Modal open={openModal}>
             <Modal.header handleClose={onClose}>
-                <h1>Lập phiếu khám</h1>
+                <h1>Thêm thuốc</h1>
             </Modal.header>
             <Modal.body>
                 <Table
@@ -81,14 +71,6 @@ export default function ({
                             }
                         }
                     ]}
-                    data={data?.DS_BENH_NHAN.doc}
-                    pagination={{
-                        currentPage: params?.page,
-                        totalPage: data?.DS_BENH_NHAN.pages,
-                        totalRecord: data?.DS_BENH_NHAN.total,
-                    }}
-                    onPageChange={handleChangePage}
-                    style={{ border: 'none' }}
                 />
             </Modal.body>
         </Modal>
