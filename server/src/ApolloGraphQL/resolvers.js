@@ -22,7 +22,7 @@ const resolvers = {
                     search.ho_ten = new RegExp(`${search.ho_ten}`,'i')
                 }
                 let count = await BENH_NHAN.countDocuments({ ...search, is_deleted: false })
-                let doc = await BENH_NHAN.find({ ...search , is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                let doc = await BENH_NHAN.find({ ...search , is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize}).sort({ 'updated_at': -1 })
                 return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
             }
             else {
@@ -77,7 +77,7 @@ const resolvers = {
         DS_LOAI_BENH: async (_,{},headers) => {
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
-                let docs = await LOAI_BENH.find({ is_deleted: false })
+                let docs = await LOAI_BENH.find({ is_deleted: false }).sort({ 'updated_at': -1 })
                 return docs
             }
             else {
@@ -101,7 +101,7 @@ const resolvers = {
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let count = await DON_VI.countDocuments({ is_deleted: false })
-                let list = await DON_VI.find({ is_deleted: false })
+                let list = await DON_VI.find({ is_deleted: false }).sort({ 'updated_at': -1 })
                 return list
             }
             else {
@@ -125,7 +125,7 @@ const resolvers = {
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let count = await CACH_DUNG.countDocuments({ is_deleted: false })
-                let list = await CACH_DUNG.find({ is_deleted: false })
+                let list = await CACH_DUNG.find({ is_deleted: false }).sort({ 'updated_at': -1 })
                 return list
             }
             else {
@@ -152,7 +152,9 @@ const resolvers = {
                     search.ten_thuoc = new RegExp(`${search.ten_thuoc}`,'i')
                 }
                 let count = await THUOC.countDocuments({ ...search, is_deleted: false })
-                let doc = await THUOC.find({ ...search, is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                let doc = await THUOC
+                .find({ ...search, is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                .sort({ 'updated_at': -1 })
                 return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
             }
             else {
@@ -177,7 +179,7 @@ const resolvers = {
             if (isValid) {
                 let count = await TAI_KHOAN.countDocuments({ is_deleted: false })
                 let doc = await TAI_KHOAN
-                .find({ is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
+                .find({ is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize}).sort({ 'updated_at': -1 })
                 return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
             }
             else {
