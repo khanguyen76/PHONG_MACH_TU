@@ -28,7 +28,7 @@ const mutation = gql`
 
         TAO_TAI_KHOAN(ho_ten: String!,email:String!,mat_khau:String!,gioi_tinh:String!,ngay_sinh:Date!,quyen:String!) :TAI_KHOAN,
         CAP_NHAT_TAI_KHOAN(_id: ID!,ho_ten: String,email:String,mat_khau:String,gioi_tinh:String,ngay_sinh:Date,quyen:String) : TAI_KHOAN,
-        XOA_TAI_KHOAN(_id: ID!) : TAI_KHOAN,
+        XOA_TAI_KHOAN(_id: ID!) : COMMON_RESPONSE,
         KHOI_PHUC_TAI_KHOAN(_id: ID!) : TAI_KHOAN,
         DANG_NHAP(email: String!,mat_khau: String!) : AUTHENCATION_RESPONSE,
         DANG_XUAT(email: String!,mat_khau: String!) : AUTHENCATION_RESPONSE,

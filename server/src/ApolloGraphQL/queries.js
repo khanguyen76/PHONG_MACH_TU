@@ -8,7 +8,7 @@ const mutation = gql`
         DS_PHIEU_KHAM (search: TIM_PHIEU_KHAM, page: Int,pageSize: Int): DS_PHIEU_KHAM_RESPONSE
         PHIEU_KHAM (_id: ID!): PHIEU_KHAM
 
-        DS_LOAI_BENH (page: Int,size: Int): DS_LOAI_BENH_RESPONSE
+        DS_LOAI_BENH : [LOAI_BENH]
         LOAI_BENH (_id: ID!): LOAI_BENH_RESPONSE
 
         DS_DON_VI: [DON_VI]

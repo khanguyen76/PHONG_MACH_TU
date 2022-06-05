@@ -1,0 +1,17 @@
+.field{
+    background-color: $gray-color-1;
+    &.field-select{
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+    &.field-textarea{
+        padding: 10px;
+        width: 100%;
+        font-size: 1rem;
+        font-weight: 500;
+        border-radius: 5px;
+        resize: none;
+    }
+}

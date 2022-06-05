@@ -19,8 +19,8 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 export default function () {
   const [openModalAdd, setOpenModalAdd] = useState(false)
-  const [openModalEdit, setOpenModalEdit] = useState(false)
-  const [dataItem, setDataItem] = useState(false)
+  const [openModalEdit, setOpenModalEdit] = useState(true)
+  const [dataItem, setDataItem] = useState()
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4
@@ -30,7 +30,7 @@ export default function () {
     fetchPolicy: 'network-only'
   });
 
-  const [getDataItem] = useLazyQuery()
+  const [getDataItem] = useLazyQuery(getItemById)
 
   const handleChangePage = (pageNumber) => {
     setParams({ ...params, page: pageNumber })
@@ -70,7 +70,7 @@ export default function () {
       reverseButtons: true
     }).then(async (result) => {
       if (result.isDenied) {
-
+        
       }
     })
   }
@@ -99,11 +99,11 @@ export default function () {
         }}
       />
       <SuaPhieuKham
-        openModal={openModalAdd}
-        // data={}
-        onClose={() => setOpenModalAdd(false)}
-        onAdded={() => {
-          setOpenModalAdd(false)
+        openModal={openModalEdit}
+        data={dataItem}
+        onClose={() => setOpenModalEdit(false)}
+        onSubmited={() => {
+          setOpenModalEdit(false)
         }}
       />
       <div style={{ textAlign: "right" }}>
