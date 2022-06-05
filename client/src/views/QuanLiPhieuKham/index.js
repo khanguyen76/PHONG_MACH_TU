@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 // API
-import { useQuery } from "@apollo/client";
-import { getPage } from "../../graphql-queries/PHIEU_KHAM";
+import { useQuery, useLazyQuery } from "@apollo/client";
+import { getPage, getItemById } from "../../graphql-queries/PHIEU_KHAM";
 // Material UI
 import CalendarIcon from '@material-ui/icons/CalendarToday';
 import PrintIcon from '@material-ui/icons/Print';
@@ -13,11 +13,14 @@ import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
 import Notify from "../../components/notify"
 import LapPhieuKham from "./LapPhieuKham"
+import SuaPhieuKham from "./SuaPhieuKham"
 // Vendors
 import moment from 'moment';
 import Swal from 'sweetalert2';
 export default function () {
-  const [openModal, setOpenModal] = useState(false)
+  const [openModalAdd, setOpenModalAdd] = useState(false)
+  const [openModalEdit, setOpenModalEdit] = useState(false)
+  const [dataItem, setDataItem] = useState(false)
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4
@@ -26,6 +29,8 @@ export default function () {
     variables: params,
     fetchPolicy: 'network-only'
   });
+
+  const [getDataItem] = useLazyQuery()
 
   const handleChangePage = (pageNumber) => {
     setParams({ ...params, page: pageNumber })
@@ -43,7 +48,17 @@ export default function () {
     refetch({ ...params, search: filter })
   }
 
-  const handleDeleteItem = (date,name) => {
+  const handleEditItem = async (id) => {
+    if(id){
+      let res = await getDataItem({
+        variables: {id}
+      })
+      setDataItem(res.data.PHIEU_KHAM)
+      setOpenModalEdit(true)
+    }
+  }
+
+  const handleDeleteItem = (date, name) => {
     Swal.fire({
       text: `Bạn có chắc muốn xoá phiếu khám bệnh ngày ${moment(date).format("DD/MM/YYYY")} của bệnh nhân ${name}?`,
       icon: 'question',
@@ -55,7 +70,7 @@ export default function () {
       reverseButtons: true
     }).then(async (result) => {
       if (result.isDenied) {
-        
+
       }
     })
   }
@@ -75,9 +90,24 @@ export default function () {
       ]}
     />
     <div className="container">
-      <LapPhieuKham openModal={openModal} onClose={()=>setOpenModal(false)} />
+      <LapPhieuKham
+        openModal={openModalAdd}
+        onClose={() => setOpenModalAdd(false)}
+        onSubmited={() => {
+          setOpenModalAdd(false)
+          refetch(params)
+        }}
+      />
+      <SuaPhieuKham
+        openModal={openModalAdd}
+        // data={}
+        onClose={() => setOpenModalAdd(false)}
+        onAdded={() => {
+          setOpenModalAdd(false)
+        }}
+      />
       <div style={{ textAlign: "right" }}>
-        <button className="btn btn--primary mb-2" onClick={()=>setOpenModal(true)}>Lập phiếu khám</button>
+        <button className="btn btn--primary mb-2" onClick={() => setOpenModalAdd(true)}>Lập phiếu khám</button>
       </div>
       <Table
         isLoading={loading}
@@ -137,8 +167,14 @@ export default function () {
             accessor: row => (
               <div className="group-button no-wrap">
                 <button className="btn btn__icon btn__outline btn__outline--primary mr-1"><PrintIcon /></button>
-                <button className="btn btn__icon btn__outline btn__outline--warning mr-1"><EditIcon /></button>
-                <button onClick={()=>handleDeleteItem(row.ngay_kham,row.benh_nhan.ho_ten)} className="btn btn__icon btn__outline btn__outline--danger mr-2"><DeleteIcon /></button>
+                <button
+                  onClick={() => handleEditItem(row._id)}
+                  className="btn btn__icon btn__outline btn__outline--warning mr-1"
+                ><EditIcon /></button>
+                <button
+                  onClick={() => handleDeleteItem(row.ngay_kham, row.benh_nhan.ho_ten)}
+                  className="btn btn__icon btn__outline btn__outline--danger mr-2"
+                ><DeleteIcon /></button>
               </div>
             ),
             props: {

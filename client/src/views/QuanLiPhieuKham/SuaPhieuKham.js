@@ -9,7 +9,7 @@ import { addNew } from "../../graphql-queries/PHIEU_KHAM"
 export default function ({
     openModal,
     onClose,
-    onSubmited
+    onAdded
 }) {
     const [params, setParams] = useState({
         page: 1,
@@ -31,7 +31,7 @@ export default function ({
             let res = await saveNewItem({
                 variables: {maBenhNhan: id}
             })
-            onSubmited(res.data.THEM_BENH_NHAN)
+            onAdded(res.data.THEM_BENH_NHAN)
         }
     }
 

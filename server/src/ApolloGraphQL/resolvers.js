@@ -54,7 +54,7 @@ const resolvers = {
                 let count = await PHIEU_KHAM.countDocuments({ ...search , is_deleted: false })
                 let doc = await PHIEU_KHAM
                 .find({ ...search , is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
-                .sort({ 'ngay_kham': -1 })
+                .sort({ 'updated_at': -1 })
                 return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
             }
             else {
@@ -68,7 +68,7 @@ const resolvers = {
                 if (!res) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return res
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -92,7 +92,7 @@ const resolvers = {
                 if (!res) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return res
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -116,7 +116,7 @@ const resolvers = {
                 if (!res) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return res
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -140,7 +140,7 @@ const resolvers = {
                 if (!res) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return res
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -167,7 +167,7 @@ const resolvers = {
                 if (!res) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return res
             }
             else {
                 throw new AuthenticationError("Access is denied")
