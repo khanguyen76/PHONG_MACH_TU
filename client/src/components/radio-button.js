@@ -23,7 +23,7 @@ class Radio extends Component {
                     {
                         this.props.options.map((option) => {
                             return <div className="rad-button">
-                                <input checked={this.state.selectedValue === option.value} onChange={() => onSelectChange(option.value)} value={option.value} type="radio" />
+                                <input checked={this.state.selectedValue == option.value || this.props.value == option.value} onChange={() => onSelectChange(option.value)} value={option.value} type="radio" />
                                 <label htmlFor={option.id}>{option.label}</label>
                             </div>
                         })

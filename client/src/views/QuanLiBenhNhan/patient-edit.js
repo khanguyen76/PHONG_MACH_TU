@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import { React, useState, useEffect } from 'react';
 import { Component } from "react";
 import Modal from "../../components/modal";
@@ -15,28 +15,36 @@ export default function ({
     patientId,
     onAdd
 }) {
-    const { loading, error, data } = useQuery(getItemById, {
-        variables: patientId,
-        fetchPolicy: 'network-only'
-      });
+    const [getData] = useLazyQuery(getItemById);
     const [updatePatientById] = useMutation(editItemById)
 
-    useEffect(() => { 
-        console.log("useEffect load id=",patientId) 
-    },[patientId]);
+    useEffect(() => {
+        if (patientId) {
+            (async () => {
+                let res = await getData({
+                    variables: {id:patientId},
+                });
+                console.log("load res=", res)
+                setName(res.data?.BENH_NHAN.ho_ten)
+                setBirthYear(res.data?.BENH_NHAN.nam_sinh)
+                setGender(res.data?.BENH_NHAN.gioi_tinh)
+                setAddress(res.data?.BENH_NHAN.dia_chi)
+            })()
+        }
+    }, [patientId]);
 
     const year = (new Date()).getFullYear();
-    const years = Array.from(new Array(100),(val, index) => year - index);
+    const years = Array.from(new Array(100), (val, index) => year - index);
 
     const [name, setName] = useState()
     const [birthYear, setBirthYear] = useState(year)
     const [gender, setGender] = useState()
     const [address, setAddress] = useState()
 
-    const updatePatient = async() => {
-        console.log("start call api "+name+" " + birthYear + " " + address + " " + gender)
+    const updatePatient = async () => {
+        console.log("start call api " + name + " " + birthYear + " " + address + " " + gender)
         let res = await updatePatientById({
-            variables: { id: patientId, hoTen: name, namSinh: parseInt(birthYear), diaChi: address, gioiTinh: gender}
+            variables: { id: patientId, hoTen: name, namSinh: parseInt(birthYear), diaChi: address, gioiTinh: gender }
         })
 
         if (res.data.CAP_NHAT_BENH_NHAN.success) {
@@ -47,7 +55,7 @@ export default function ({
                 showConfirmButton: true,
                 confirmButtonText: 'Xác nhận',
                 reverseButtons: true
-              })
+            })
             onAdd()
             handleClose()
         } else {
@@ -58,7 +66,7 @@ export default function ({
                 showConfirmButton: true,
                 confirmButtonText: 'Xác nhận',
                 reverseButtons: true
-              })
+            })
         }
     }
 
@@ -95,23 +103,23 @@ export default function ({
             </Modal.header>
             <Modal.body>
                 <div className="text-with-spacing" style={{
-                    display:"flex"
-                    }}>
+                    display: "flex"
+                }}>
                     <h4>Họ tên</h4>
                     <TextBox value={name} className="edit-field" onChangeValue={onNameChanged} />
                 </div>
 
-                <div className="text-with-spacing" style={{display:"flex"}}>
+                <div className="text-with-spacing" style={{ display: "flex" }}>
                     <h4>Năm sinh</h4>
                     <Select value={birthYear} className="edit-selects" options={years} onChange={onYearChanged} />
                 </div>
 
-                <div className="text-with-spacing" style={{display:"flex"}}>
+                <div className="text-with-spacing" style={{ display: "flex" }}>
                     <h4>Giới tính</h4>
-                    <Radio value={gender} className="edit-field-radio" options={[{id: "1", value: "Nam", label: "Nam"}, {id: "2", value: "Nữ", label: "Nữ"}]} changed={onGenderChanged} />
+                    <Radio value={gender} className="edit-field-radio" options={[{ id: "1", value: "Nam", label: "Nam" }, { id: "2", value: "Nữ", label: "Nữ" }]} changed={onGenderChanged} />
                 </div>
 
-                <div className="text-with-spacing" style={{display:"flex"}}>
+                <div className="text-with-spacing" style={{ display: "flex" }}>
                     <h4>Địa chỉ</h4>
                     <TextBox value={address} className="edit-field" onChangeValue={onAddressChanged} />
                 </div>

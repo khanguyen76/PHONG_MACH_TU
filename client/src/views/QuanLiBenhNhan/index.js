@@ -108,7 +108,7 @@ export default function () {
             accessor: (row) => (
               <div className="group-button">
                 <button>In</button>
-                <button onClick={() => handleEditClick(row.id)}>Sửa</button>
+                <button onClick={() => handleEditClick(row._id)}>Sửa</button>
                 <button>Xoá</button>
               </div>
             ),
