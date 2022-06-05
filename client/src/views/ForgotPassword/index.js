@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Redirect } from 'react-router-dom'
 
@@ -61,6 +60,4 @@ function App() {
     </div>
   );
 }
-
-
 export default App;
