@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Grid from '@material-ui/core/Grid';
-import { useQuery } from "@apollo/client";
-import { getPage } from "../../graphql-queries/TAI_KHOAN";
+import { useQuery, useMutation } from "@apollo/client";
+import { getPage, deleteItemById } from "../../graphql-queries/TAI_KHOAN";
 // Material UI
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -15,19 +15,33 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 export default function () {
   console.log("re-render");
+  const [xoaTaiKhoan] = useMutation(deleteItemById);
+  const [notify, setNotify] = useState()
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4
   })
-  const { loading, error, data } = useQuery(getPage, {
+  const { loading, error, data, refetch } = useQuery(getPage, {
     variables: params,
     fetchPolicy: 'network-only'
   });
 
+  const handleFilter = ({ key, value }) => {
+    let filter = params.search || {}
+    if (value) {
+      filter[key] = value
+    }
+    else {
+      delete filter[key]
+    }
+    setParams({ ...params, search: filter })
+    refetch({ ...params, search: filter })
+  }
+
   const handleChangePage = (pageNumber) => {
     setParams({ ...params, page: pageNumber })
   }
-  const handleDeleteItem = (email) => {
+  const handleDeleteItem = (id, email) => {
     Swal.fire({
       text: `Bạn có chắc muốn xoá tài khoản ${email}?`,
       icon: 'question',
@@ -39,12 +53,34 @@ export default function () {
       reverseButtons: true
     }).then(async (result) => {
       if (result.isDenied) {
-        
+        let res = await xoaTaiKhoan({
+          variables: { id }
+        })
+        if (res.data.XOA_TAI_KHOAN.success) {
+          refetch({ ...params, params })
+          setNotify({
+            type: "success",
+            message: "Phiếu khám bệnh đã được xoá thành công.",
+            timeout: 3000
+          })
+        }
+        else {
+          setNotify({
+            type: "error",
+            message: "Đã có lỗi xảy ra. Xoá không thành công",
+            timeout: 3000
+          })
+        }
       }
     })
   }
   // if (loading) return <div className="loading">Loading...</div>;
   return <div className="data">
+    {
+      useMemo(() => (
+        <Notify option={notify} />
+      ), [notify])
+    }
     <Breadcrumb
       titlePage="Tài khoản"
       crumbs={[
@@ -62,6 +98,7 @@ export default function () {
         <button className="btn btn--primary mb-2">Tạo tài khoản</button>
       </div>
       <Table
+        onFilter={handleFilter}
         isLoading={loading}
         isSort={true}
         columns={[
@@ -114,7 +151,7 @@ export default function () {
             accessor: (row) => (
               <div className="group-button">
                 <button className="btn btn__icon btn__outline btn__outline--warning mr-1"><EditIcon /></button>
-                <button onClick={()=>handleDeleteItem(row.email)} className="btn btn__icon btn__outline btn__outline--danger mr-2"><DeleteIcon /></button>
+                <button onClick={() => handleDeleteItem(row._id, row.email)} className="btn btn__icon btn__outline btn__outline--danger mr-2"><DeleteIcon /></button>
               </div>
             ),
             props: {

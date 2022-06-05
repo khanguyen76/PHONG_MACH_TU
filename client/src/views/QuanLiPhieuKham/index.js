@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 // API
-import { useQuery, useLazyQuery } from "@apollo/client";
-import { getPage, getItemById } from "../../graphql-queries/PHIEU_KHAM";
+import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
+import { getPage, getItemById, deleteItemById } from "../../graphql-queries/PHIEU_KHAM";
 // Material UI
 import CalendarIcon from '@material-ui/icons/CalendarToday';
 import PrintIcon from '@material-ui/icons/Print';
@@ -21,6 +21,8 @@ export default function () {
   const [openModalAdd, setOpenModalAdd] = useState(false)
   const [openModalEdit, setOpenModalEdit] = useState(true)
   const [dataItem, setDataItem] = useState()
+  const [notify, setNotify] = useState()
+  const [openModal, setOpenModal] = useState(false)
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4
@@ -58,7 +60,9 @@ export default function () {
     }
   }
 
-  const handleDeleteItem = (date, name) => {
+  const [xoaPhieuKham] = useMutation(deleteItemById);
+
+  const handleDeleteItem = (id, date, name) => {
     Swal.fire({
       text: `Bạn có chắc muốn xoá phiếu khám bệnh ngày ${moment(date).format("DD/MM/YYYY")} của bệnh nhân ${name}?`,
       icon: 'question',
@@ -70,13 +74,35 @@ export default function () {
       reverseButtons: true
     }).then(async (result) => {
       if (result.isDenied) {
-        
+        let res = await xoaPhieuKham({
+          variables: { id }
+        })
+        if (res.data.XOA_PHIEU_KHAM.success) {
+          refetch({ ...params, params })
+          setNotify({
+            type: "success",
+            message: "Phiếu khám bệnh đã được xoá thành công.",
+            timeout: 3000
+          })
+        }
+        else {
+          setNotify({
+            type: "error",
+            message: "Đã có lỗi xảy ra. Xoá không thành công",
+            timeout: 3000
+          })
+        }
       }
     })
   }
 
   // if (loading) return <div className="loading">Loading...</div>;
   return <div className="data">
+    {
+      useMemo(() => (
+        <Notify option={notify} />
+      ), [notify])
+    }
     <Breadcrumb
       titlePage="Khám bệnh"
       crumbs={[
@@ -172,7 +198,7 @@ export default function () {
                   className="btn btn__icon btn__outline btn__outline--warning mr-1"
                 ><EditIcon /></button>
                 <button
-                  onClick={() => handleDeleteItem(row.ngay_kham, row.benh_nhan.ho_ten)}
+                  onClick={() => handleDeleteItem(row._id, row.ngay_kham, row.benh_nhan.ho_ten)}
                   className="btn btn__icon btn__outline btn__outline--danger mr-2"
                 ><DeleteIcon /></button>
               </div>

@@ -21,3 +21,14 @@ export const getPage = gql`
         }
     }
 `
+
+// Xoá 1 phần tử với Id
+export const deleteItemById = gql`
+    mutation ($id: ID!) {
+        XOA_THUOC(_id: $id) {
+            code
+            success
+            message
+        }
+    }
+`
