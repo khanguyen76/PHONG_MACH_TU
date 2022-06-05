@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from "react";
 import Grid from '@material-ui/core/Grid';
 import { useQuery, useMutation } from "@apollo/client";
@@ -10,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Breadcrumb from "../../components/breadcrumb";
 import Table from "../../components/table";
 import Notify from "../../components/notify"
+
 // Vendors
 import moment from 'moment';
 import Swal from 'sweetalert2';
@@ -21,6 +21,7 @@ export default function () {
     page: 1,
     pageSize: 4
   })
+  const [openModal, setOpenModal] = useState(false)
   const { loading, error, data, refetch } = useQuery(getPage, {
     variables: params,
     fetchPolicy: 'network-only'
@@ -74,6 +75,7 @@ export default function () {
       }
     })
   }
+
   // if (loading) return <div className="loading">Loading...</div>;
   return <div className="data">
     {
@@ -95,7 +97,8 @@ export default function () {
     />
     <div className="container">
       <div style={{ textAlign: "right" }}>
-        <button className="btn btn--primary mb-2">Thêm thuốc</button>
+        <button className="btn btn--primary mb-2" >Thêm thuốc </button>
+
       </div>
       <Table
         isLoading={loading}
