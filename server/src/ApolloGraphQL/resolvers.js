@@ -446,6 +446,7 @@ const resolvers = {
             }
         },
         CAP_NHAT_PHIEU_KHAM: async (_, args,headers) => {
+            console.log(args);
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let phieu_kham = await PHIEU_KHAM.findOne({ _id: args._id, is_deleted: false })
@@ -474,8 +475,9 @@ const resolvers = {
                     args.don_thuoc = don_thuoc
                     args.tong_tien = tong_tien + phieu_kham.tien_kham
                 }
+                console.log(args);
                 let doc = await PHIEU_KHAM.findOneAndUpdate({ _id: args._id }, { ...args }, { new: true })
-                return doc
+                return { success: true, code: 200, message: "Successfully" }
             }
             else {
                 throw new AuthenticationError("Access is denied")

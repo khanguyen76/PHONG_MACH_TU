@@ -23,7 +23,7 @@ const mutation = gql`
         XOA_THUOC(_id: ID!): COMMON_RESPONSE
 
         THEM_PHIEU_KHAM(ma_benh_nhan:String!,ngay_kham: Date): PHIEU_KHAM
-        CAP_NHAT_PHIEU_KHAM(_id: ID!,ma_loai_benh:String,trieu_chung:String,ngay_kham: Date,don_thuoc: [THUOC_KE_DON]): PHIEU_KHAM
+        CAP_NHAT_PHIEU_KHAM(_id: ID!,ma_loai_benh:String,trieu_chung:String,ngay_kham: Date,don_thuoc: [THUOC_KE_DON]): COMMON_RESPONSE
         XOA_PHIEU_KHAM(_id: ID!): COMMON_RESPONSE
 
         TAO_TAI_KHOAN(ho_ten: String!,email:String!,mat_khau:String!,gioi_tinh:String!,ngay_sinh:Date!,quyen:String!) :TAI_KHOAN,

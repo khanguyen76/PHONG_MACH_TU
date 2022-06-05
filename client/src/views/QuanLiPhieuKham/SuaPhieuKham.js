@@ -10,8 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 // API
 import { useQuery, useMutation } from "@apollo/client"
 import { getPage } from "../../graphql-queries/BENH_NHAN"
-import { addNew } from "../../graphql-queries/PHIEU_KHAM"
-import { getList } from "../../graphql-queries/LOAI_BENH"
+import { getListField, updateItemById } from "../../graphql-queries/PHIEU_KHAM"
 // Vendors
 import moment from 'moment';
 export default function ({
@@ -23,22 +22,77 @@ export default function ({
     const { register, handleSubmit, watch, reset } = useForm({
         loai_benh: data?.loai_benh?._id
     });
-    const { loading, data: dataLoaiBenh, error } = useQuery(getList)
+    const { loading, data: dataField, error } = useQuery(getListField)
+    const [updateData] = useMutation(updateItemById)
     const [prescription, setPrescription] = useState([])
 
-    const onSubmit = (dataHookForm) => {
+    const onSubmit = async (dataHookForm) => {
         console.log(dataHookForm);
+        let prescriptionData = prescription.filter(i=>i.thuoc)
+        console.log(prescriptionData);
+        console.log({
+            ma_loai_benh: dataHookForm.loai_benh,
+            trieu_chung: dataHookForm.trieu_chung,
+            don_thuoc: prescriptionData.map(i=>({
+                ma_thuoc:i.thuoc._id,
+                so_luong:i.so_luong
+            }))
+        });
+        let res = await updateData({
+            variables:{
+                id: data._id,
+                maLoaiBenh: dataHookForm.loai_benh,
+                trieuChung: dataHookForm.trieu_chung,
+                donThuoc: prescriptionData.map(i=>({
+                    ma_thuoc:i.thuoc._id,
+                    so_luong:i.so_luong
+                }))
+            }
+        })
     }
 
-    useEffect(()=>{
-        if(data){
+    const addMedicine = () => {
+        let clone = JSON.parse(JSON.stringify(prescription))
+        clone.push({
+            so_luong: 1
+        })
+        setPrescription(clone)
+    }
+
+    const deleteMedicine = (idx) => {
+        let clone = JSON.parse(JSON.stringify(prescription))
+        clone.splice(idx, 1)
+        setPrescription(clone)
+    }
+
+    const updateMedicine = ({ idx, id }) => {
+        let clone = JSON.parse(JSON.stringify(prescription))
+        let med = dataField?.DS_THUOC.doc.find(i => i._id == id)
+        clone[idx] = {
+            so_luong: 1,
+            thuoc: med
+        }
+        setPrescription(clone)
+    }
+
+    const updateAmount = ({ idx, value }) => {
+        let clone = JSON.parse(JSON.stringify(prescription))
+        clone[idx] = {
+            ...clone[idx],
+            so_luong: value > 1 ? value : 1,
+        }
+        setPrescription(clone)
+    }
+
+    useEffect(() => {
+        if (data) {
             reset({
                 loai_benh: data?.loai_benh?._id,
                 trieu_chung: data?.trieu_chung,
             })
             setPrescription(data?.don_thuoc)
         }
-    },[data])
+    }, [data])
 
     return (
         <Modal open={openModal}>
@@ -71,7 +125,7 @@ export default function ({
                                     defaultValue={data?.loai_benh?._id}>
                                     <option value="">Chọn loại bệnh</option>
                                     {
-                                        dataLoaiBenh?.DS_LOAI_BENH?.map(item => <option value={item._id}>{item.ten_loai_benh}</option>)
+                                        dataField?.DS_LOAI_BENH?.map(item => <option value={item._id}>{item.ten_loai_benh}</option>)
                                     }
                                 </select>
                             </span>
@@ -85,7 +139,7 @@ export default function ({
                     </Grid>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                         <h1 className='mt-2 mb-2'>Đơn thuốc</h1>
-                        <button className="btn btn--primary mb-2" onClick={() => { }}>Thêm thuốc</button>
+                        <button type="button" className="btn btn--primary mb-2" onClick={addMedicine}>Thêm thuốc</button>
                     </div>
                     <Table
                         columns={[
@@ -102,7 +156,20 @@ export default function ({
                                 props: {
                                     width: 300
                                 },
-                                accessor: row => row.thuoc.ten_thuoc
+                                accessor: (row, key) => (
+                                    <select
+                                        defaultValue={row.thuoc?._id}
+                                        onChange={(e) => updateMedicine({
+                                            idx: key,
+                                            id: e.target.value
+                                        })}
+                                    >
+                                        <option value="">Chọn thuốc</option>
+                                        {
+                                            dataField?.DS_THUOC.doc?.map((item, key) => <option key={key} value={item._id}>{item.ten_thuoc}</option>)
+                                        }
+                                    </select>
+                                )
                             },
                             {
                                 label: "Số lượng",
@@ -110,7 +177,16 @@ export default function ({
                                 props: {
                                     width: 100
                                 },
-                                accessor: row => row.so_luong
+                                accessor: (row,key) => (
+                                    <input
+                                        type="number"
+                                        defaultValue={row.so_luong}
+                                        onChange={(e) => updateAmount({
+                                            idx: key,
+                                            value: e.target.value
+                                        })}
+                                        style={{ width: 50 }} />
+                                )
                             },
                             {
                                 label: "Đơn vị",
@@ -118,19 +194,20 @@ export default function ({
                                 props: {
                                     width: 100
                                 },
-                                accessor: row => row.thuoc.don_vi.ten_don_vi
+                                accessor: row => row.thuoc?.don_vi.ten_don_vi
                             },
                             {
                                 label: "Cách dùng",
-                                accessor: row => row.thuoc.cach_dung.mo_ta_cach_dung
+                                accessor: row => row.thuoc?.cach_dung.mo_ta_cach_dung
                             },
                             {
                                 label: "",
                                 textAlign: "right",
-                                accessor: row => (
+                                accessor: (row, key) => (
                                     <div className="group-button no-wrap">
                                         <button
-                                            // onClick={() => handleDeleteItem(row.ngay_kham, row.benh_nhan.ho_ten)}
+                                            type="button"
+                                            onClick={() => deleteMedicine(key)}
                                             className="btn btn__icon btn__outline btn__outline--danger mr-2"
                                         ><DeleteIcon /></button>
                                     </div>

@@ -19,6 +19,30 @@ export const getPage = gql`
         }
     }
 `
+export const getListField = gql`
+    query {
+        DS_LOAI_BENH {
+            _id
+            ten_loai_benh
+        }
+        DS_THUOC {
+            doc {
+                _id
+                ten_thuoc
+                don_vi {
+                    _id
+                    ten_don_vi
+                }
+                cach_dung {
+                    _id
+                    mo_ta_cach_dung
+                }
+                don_gia
+            }
+        }
+    }
+`
+
 export const getItemById = gql`
     query ($id: ID!) {
     PHIEU_KHAM(_id: $id) {
@@ -57,9 +81,8 @@ export const getItemById = gql`
         }
     }
 `
-
 export const addNew = gql`
-    mutation Mutation($maBenhNhan: String!) {
+    mutation ($maBenhNhan: String!) {
         THEM_PHIEU_KHAM(ma_benh_nhan: $maBenhNhan) {
             _id
             ngay_kham
@@ -72,6 +95,16 @@ export const addNew = gql`
             }
             tien_kham
             tong_tien
+        }
+    }
+`
+
+export const updateItemById = gql`
+    mutation ($id: ID!, $maLoaiBenh: String, $trieuChung: String, $ngayKham: Date, $donThuoc: [THUOC_KE_DON]) {
+        CAP_NHAT_PHIEU_KHAM(_id: $id, ma_loai_benh: $maLoaiBenh, trieu_chung: $trieuChung, ngay_kham: $ngayKham, don_thuoc: $donThuoc) {
+            code
+            success
+            message
         }
     }
 `
