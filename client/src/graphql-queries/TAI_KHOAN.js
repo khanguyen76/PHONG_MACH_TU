@@ -47,3 +47,14 @@ export const getProfile = gql`
         }
     }
 `
+
+// Xoá 1 phần tử với Id
+export const deleteItemById = gql`
+    mutation ($id: ID!) {
+        XOA_TAI_KHOAN(_id: $id) {
+            code
+            success
+            message
+        }
+    }
+`

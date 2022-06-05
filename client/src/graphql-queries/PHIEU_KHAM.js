@@ -97,11 +97,21 @@ export const addNew = gql`
             tong_tien
         }
     }
+ `
+export const updateItemById = gql`
+mutation ($id: ID!, $maLoaiBenh: String, $trieuChung: String, $ngayKham: Date, $donThuoc: [THUOC_KE_DON]) {
+    CAP_NHAT_PHIEU_KHAM(_id: $id, ma_loai_benh: $maLoaiBenh, trieu_chung: $trieuChung, ngay_kham: $ngayKham, don_thuoc: $donThuoc) {
+        code
+        success
+        message
+    }
+}
 `
 
-export const updateItemById = gql`
-    mutation ($id: ID!, $maLoaiBenh: String, $trieuChung: String, $ngayKham: Date, $donThuoc: [THUOC_KE_DON]) {
-        CAP_NHAT_PHIEU_KHAM(_id: $id, ma_loai_benh: $maLoaiBenh, trieu_chung: $trieuChung, ngay_kham: $ngayKham, don_thuoc: $donThuoc) {
+// Xoá 1 phần tử với Id
+export const deleteItemById = gql`
+    mutation ($id: ID!) {
+        XOA_PHIEU_KHAM(_id: $id) {
             code
             success
             message
