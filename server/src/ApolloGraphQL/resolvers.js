@@ -54,7 +54,7 @@ const resolvers = {
                 let count = await PHIEU_KHAM.countDocuments({ ...search , is_deleted: false })
                 let doc = await PHIEU_KHAM
                 .find({ ...search , is_deleted: false },{},{skip:(page-1)*pageSize,limit:pageSize})
-                .sort({ 'ngay_kham': -1 })
+                .sort({ 'updated_at': -1 })
                 return { success: true, code: 200, message: "Successful", total: count, pages: pageSize ? Math.ceil(count/pageSize):null, doc }
             }
             else {
@@ -68,18 +68,17 @@ const resolvers = {
                 if (!res) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return res
             }
             else {
                 throw new AuthenticationError("Access is denied")
             }
         },
-        DS_LOAI_BENH: async (_,{page,size},headers) => {
+        DS_LOAI_BENH: async (_,{},headers) => {
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
-                let count = await LOAI_BENH.countDocuments({ is_deleted: false })
-                let doc = await LOAI_BENH.find({ is_deleted: false },{},{skip:(page-1)*size,limit:size})
-                return { success: true, code: 200, message: "Successful", total: count, pages: size ? Math.ceil(count/size):null, doc }
+                let docs = await LOAI_BENH.find({ is_deleted: false })
+                return docs
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -92,7 +91,7 @@ const resolvers = {
                 if (!res) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return res
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -116,7 +115,7 @@ const resolvers = {
                 if (!res) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return res
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -140,7 +139,7 @@ const resolvers = {
                 if (!res) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return res
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -167,7 +166,7 @@ const resolvers = {
                 if (!res) {
                     throw new Error("Data not found")
                 }
-                return { success: true, code: 200, message: "Successful", doc: res }
+                return res
             }
             else {
                 throw new AuthenticationError("Access is denied")
@@ -199,7 +198,12 @@ const resolvers = {
     },
     PHIEU_KHAM: {
         benh_nhan: (_) => BENH_NHAN.findOne({ _id: _.ma_benh_nhan }),
-        loai_benh: (_) => LOAI_BENH.findOne({ _id: _.ma_loai_benh }),
+        loai_benh: async (_) => {
+            console.log(_.ma_loai_benh);
+            let res = await LOAI_BENH.findOne({ _id: _.ma_loai_benh })
+            console.log(res);
+            return res
+        },
         don_thuoc: async (_) => {
             let ds_ma_thuoc = _.don_thuoc.map(i=>i.ma_thuoc)
             let docs = await THUOC.find({ _id: ds_ma_thuoc })

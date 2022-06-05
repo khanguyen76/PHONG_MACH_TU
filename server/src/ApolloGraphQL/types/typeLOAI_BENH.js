@@ -8,14 +8,6 @@ const typeTAI_KHOAN = gql`
         created_at: Date,
         updated_at: Date,
     }      
-    type DS_LOAI_BENH_RESPONSE {
-        code: Int
-        success: Boolean
-        message: String
-        pages: Int,
-        total: Int
-        doc: [LOAI_BENH]
-    }
     type LOAI_BENH_RESPONSE {
         code: Int
         success: Boolean
