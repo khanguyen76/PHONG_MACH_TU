@@ -23,7 +23,7 @@ export default function ({
                 <Table
                     columns={[
                         {
-                            label: "STT",
+                            label: "Tên thuốc",
                             accessor: (row, key) => (key + 1) + (params.page > 1 ? params.pageSize : 0),
                             textAlign: "center",
                             props: {
@@ -31,7 +31,7 @@ export default function ({
                             }
                         },
                         {
-                            label: "Họ tên",
+                            label: "Đơn giá",
                             accessor: 'ho_ten',
                             isSearchable: 'ho_ten',
                             props: {
@@ -39,7 +39,7 @@ export default function ({
                             }
                         },
                         {
-                            label: "Giới tính",
+                            label: "Đơn vị tính tính",
                             accessor: 'gioi_tinh',
                             textAlign: "center",
                             props: {
@@ -47,27 +47,11 @@ export default function ({
                             }
                         },
                         {
-                            label: "Năm sinh",
+                            label: "Cách dùng",
                             accessor: 'nam_sinh',
                             textAlign: "center",
                             props: {
                                 width: 150
-                            }
-                        },
-                        {
-                            label: "Địa chỉ",
-                            accessor: 'dia_chi',
-                        },
-                        {
-                            label: "",
-                            textAlign: "right",
-                            accessor: (row) => (
-                                <div className="group-button no-wrap">
-                                    <button className="btn btn--primary mr-2">Lập phiếu</button>
-                                </div>
-                            ),
-                            props: {
-                                width: 200
                             }
                         }
                     ]}
