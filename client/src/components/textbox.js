@@ -6,7 +6,10 @@ class TextBox extends Component {
     render() {
         return (
             <div>
-                <input type="text"
+                <input
+                    className={this.props.className ? this.props.className : ""}
+                    type="text"
+                    value={this.props.value}
                     onChange={this.props.onChangeValue}
                     autoComplete="off"
                 />
