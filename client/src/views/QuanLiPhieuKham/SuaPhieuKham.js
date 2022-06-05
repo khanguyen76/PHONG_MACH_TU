@@ -17,7 +17,7 @@ export default function ({
     openModal,
     data,
     onClose,
-    onAdded
+    onSubmited
 }) {
     const { register, handleSubmit, watch, reset } = useForm({
         loai_benh: data?.loai_benh?._id
@@ -45,10 +45,11 @@ export default function ({
                 trieuChung: dataHookForm.trieu_chung,
                 donThuoc: prescriptionData.map(i=>({
                     ma_thuoc:i.thuoc._id,
-                    so_luong:i.so_luong
+                    so_luong:parseInt(i.so_luong)
                 }))
             }
         })
+        onSubmited(res)
     }
 
     const addMedicine = () => {
@@ -223,7 +224,7 @@ export default function ({
             </Modal.body>
             <Modal.footer>
                 <div style={{ textAlign: 'right', padding: '0 20px' }}>
-                    <button className="btn btn--secondary mr-1">Huỷ bỏ</button>
+                    <button className="btn btn--secondary mr-1" onClick={onClose}>Huỷ bỏ</button>
                     <button className="btn btn--primary" onClick={handleSubmit(onSubmit)}>Lưu thay đổi</button>
                 </div>
             </Modal.footer>

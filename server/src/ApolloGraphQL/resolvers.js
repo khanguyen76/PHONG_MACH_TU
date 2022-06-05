@@ -437,6 +437,7 @@ const resolvers = {
                     throw new Error("Data not found")
                 }
                 let tien_kham = await QUY_DINH.findOne({ _id: "6288a739480a642eebd04e13" })
+                console.log(tien_kham);
                 const PHIEU_KHAM_MOI = new PHIEU_KHAM({...args,tien_kham: tien_kham.gia_tri, tong_tien:  tien_kham.gia_tri})
                 let doc = await PHIEU_KHAM_MOI.save()
                 return doc
@@ -446,13 +447,15 @@ const resolvers = {
             }
         },
         CAP_NHAT_PHIEU_KHAM: async (_, args,headers) => {
-            console.log(args);
+            // console.log(args);
             let isValid = disableVerify || await verifyToken(headers['access-token'])
             if (isValid) {
                 let phieu_kham = await PHIEU_KHAM.findOne({ _id: args._id, is_deleted: false })
                 if (!phieu_kham) {
                     throw new Error("Data not found")
                 }
+                console.log('--------------------',phieu_kham);
+                console.log('--------------------',args);
                 if(args.don_thuoc){
                     let ds_ma_thuoc = args.don_thuoc.map(thuoc=>thuoc.ma_thuoc)
                     let ds_gia_thuoc = await THUOC.find({ _id: ds_ma_thuoc, is_deleted: false }, '_id don_gia')
@@ -475,8 +478,9 @@ const resolvers = {
                     args.don_thuoc = don_thuoc
                     args.tong_tien = tong_tien + phieu_kham.tien_kham
                 }
-                console.log(args);
+                // console.log(args);
                 let doc = await PHIEU_KHAM.findOneAndUpdate({ _id: args._id }, { ...args }, { new: true })
+                console.log('--------------------',doc);
                 return { success: true, code: 200, message: "Successfully" }
             }
             else {

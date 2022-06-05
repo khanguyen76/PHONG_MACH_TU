@@ -19,10 +19,9 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 export default function () {
   const [openModalAdd, setOpenModalAdd] = useState(false)
-  const [openModalEdit, setOpenModalEdit] = useState(true)
+  const [openModalEdit, setOpenModalEdit] = useState(false)
   const [dataItem, setDataItem] = useState()
   const [notify, setNotify] = useState()
-  const [openModal, setOpenModal] = useState(false)
   const [params, setParams] = useState({
     page: 1,
     pageSize: 4
@@ -130,6 +129,7 @@ export default function () {
         onClose={() => setOpenModalEdit(false)}
         onSubmited={() => {
           setOpenModalEdit(false)
+          refetch(params)
         }}
       />
       <div style={{ textAlign: "right" }}>
