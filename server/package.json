@@ -21,7 +21,8 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
     "mongoose": "^5.13.14",
-    "nodemailer": "^6.7.5"
+    "nodemailer": "^6.7.5",
+    "trc": "^1.0.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
